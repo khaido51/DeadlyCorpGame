@@ -12,10 +12,10 @@ Item::Item(std::string _name, double _price)
 
 std::string Item::getName()
 {
-    return std::string();
+    return name;
 }
 
 double Item::getPrice()
 {
-    return 0.0;
+    return price;
 }

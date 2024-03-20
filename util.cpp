@@ -17,7 +17,9 @@ int util::parsePositiveInt(const std::string &str)
     try {
         return std::stoi(str);
     } catch(std::invalid_argument const &ex) {
+
     } catch(std::out_of_range const &ex) {
+
     }
 
     return -1;
