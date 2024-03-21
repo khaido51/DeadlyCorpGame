@@ -7,13 +7,13 @@
 class Item {
 private:
     std::string name;
-    double price;
+    int price;
     
 public:
     Item();
-    Item(std::string _name, double _price);
+    Item(std::string _name, int _price);
     std::string getName();
-    double getPrice();
+    int getPrice();
 };
 
 

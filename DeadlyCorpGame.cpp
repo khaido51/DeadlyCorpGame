@@ -15,11 +15,11 @@ int main()
 {
     //Initialize to default value for each variable when the game start
     int day = 1;
-    int balance = 50;
+    int balance = 500;
     int cargo = 0;
     int quota = 150;
     int maxDayCycle = 4;
-    std::list<string> commands = { "moons", "store", "inventory" };
+    //std::list<string> commands = { "moons", "store", "inventory" };
 
     Game game(cargo, balance, day, quota);
     MoonManager moonManager;
@@ -71,34 +71,21 @@ int main()
     int error = 0;
     while (true) {
         std::cin >> command;
-        for (auto validCommand : commands) {
-            if (command == validCommand) {
-                if (command == "moon") {
-                    moonManager.processCommands(command);
-                }
-                else if (command == "store") {
-                    itemManager.processCommand(command);
-                }
-                else if (command == "inventory") {
-                    itemManager.processCommand(command);
-                }
-                error = 0;
-                break;
-            }
-            else {
-                error = 1;
-            }
-           
-                
-         }
-        if (error > 0) {
+        if (command == "moons") {
+            moonManager.processCommands(command);
+        }
+        else if (command == "store") {
+            itemManager.processCommand(command, balance);
+        }
+        else if (command == "inventory") {
+            itemManager.processCommand(command, balance);
+        }
+        else {
             std::cout << "Invalid Command" << std::endl;
-    }
-   
-    
-    }
+        }
 
-    
+        
+    }
 
 	return 0;
 
