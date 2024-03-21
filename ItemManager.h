@@ -7,6 +7,8 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <set>
+
 
 class ItemManager {
 private:
@@ -14,7 +16,7 @@ private:
     static const std::list<std::string> commands;
     static std::vector<Item*> items;
     std::vector<std::string> arguments;
-    std::vector<std::string> inventory;
+    std::set<std::string> inventory;
 
 public:
     ItemManager();

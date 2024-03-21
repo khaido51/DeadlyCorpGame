@@ -5,7 +5,7 @@
 //Create a vector with Item type to store a list of items in ItemManager class
 std::vector<Item*> ItemManager::items;
 std::vector<std::string> arguments;
-std::vector<std::string*> inventory;
+std::set<std::string*> inventory;
 
 ItemManager::ItemManager()
 {
@@ -28,8 +28,8 @@ void ItemManager::showAllItems()
 
 void ItemManager::showInventory()
 {
-    for (const auto& item: inventory ) {
-        std::cout << item << std::endl;
+    for (const auto& purchasedItem: inventory ) {
+        std::cout << purchasedItem << std::endl;
     }
 }
 
@@ -57,13 +57,19 @@ void ItemManager::processCommand(const std::string& command, int& balance)
             if (itemManagerCommand == "buy") {
                 for (auto item : items) {
                     if (item->getName() == arguments[0]) {
-
-                        inventory.push_back(item->getName());
-                        std::cout << "Successfully bought " << item->getName() << std::endl;
-                        balance = balance - item->getPrice();
-                        std::cout << std::endl;
-                        std::cout << "Your balance is: $" << balance << std::endl;
-                        std::cout << std::endl;
+                        
+                        auto result = inventory.insert(item->getName());
+                        if (result.second) {
+                            std::cout << "Successfully bought " << item->getName() << std::endl;
+                            balance = balance - item->getPrice();
+                            std::cout << std::endl;
+                            std::cout << "Your balance is: $" << balance << std::endl;
+                            std::cout << std::endl;
+                        }
+                        else {
+                            std::cout << "The item already existed your inventory" << std::endl;
+                        }
+                       
                         break;
 
                     }
