@@ -3,6 +3,7 @@
 
 #include "DeadlyCorpGame.h"
 #include "Game.h"
+#include "Moon.h"
 #include "MoonManager.h"
 #include "AbstractMoon.h"
 #include "ItemManager.h"
@@ -19,11 +20,9 @@ int main()
     int cargo = 0;
     int quota = 150;
     int maxDayCycle = 4;
-    //std::list<string> commands = { "moons", "store", "inventory" };
-
-    Game game(cargo, balance, day, quota);
-    MoonManager moonManager;
     ItemManager itemManager;
+
+    //std::list<string> commands = { "moons", "store", "inventory" };
 
     //Create new Item
     itemManager.registerItem(new Item("Flashlight", 60));
@@ -33,6 +32,24 @@ int main()
     itemManager.registerItem(new Item("Inverse-Teleporter", 400));
     itemManager.registerItem(new Item("Backpack", 500));
     itemManager.registerItem(new Item("Hydraulics Mk2", 1000));
+
+    Game game(cargo, balance, day, quota, itemManager);
+    MoonManager moonManager;
+
+
+    AbstractMoon* moon = new Moon("Corporation");
+    AbstractMoon* moon1 = new Moon("Prototyping");
+    AbstractMoon* moon2 = new Moon("Insurance");
+    AbstractMoon* moon3 = new Moon("Pledge");
+    AbstractMoon* moon4 = new Moon("Defence");
+    moonManager.registerMoon(moon);
+    moonManager.registerMoon(moon1);
+    moonManager.registerMoon(moon2);
+    moonManager.registerMoon(moon3);
+    moonManager.registerMoon(moon4);
+  
+   
+    
 
 
     //Welcome screen

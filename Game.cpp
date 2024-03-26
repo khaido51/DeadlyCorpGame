@@ -7,13 +7,15 @@ Game::Game()
 }
 
 //Constructor of creating a first game (cargo = 0; balance = 50, quota = 150, day = 1)
-Game::Game(int _cargo, int _balance, int _currentDay, int _quota)
+Game::Game(int _cargo, int _balance, int _currentDay, int _quota, ItemManager _itemManager)
 {
     cargo = _cargo;
     balance = _balance;
     currentDay = _currentDay;
     quota = _quota;
+    itemManager = _itemManager;
 }
+
 
 
 int Game::showBalance()

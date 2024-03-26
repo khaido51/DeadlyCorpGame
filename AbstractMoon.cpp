@@ -11,9 +11,12 @@ AbstractMoon::~AbstractMoon()
 const std::string& AbstractMoon::name() const
 {
     // TODO: insert return statement here
-    return "";
+    return moonName;
 }
+
+
 
 void AbstractMoon::onDayBegin(Game& g)
 {
+
 }

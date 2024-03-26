@@ -57,17 +57,23 @@ void ItemManager::processCommand(const std::string& command, int& balance)
             if (itemManagerCommand == "buy") {
                 for (auto item : items) {
                     if (item->getName() == arguments[0]) {
+                        if (balance >= item->getPrice()) {
+                            auto result = inventory.insert(item->getName());
+                            if (result.second) {
+                                std::cout << "Successfully bought " << item->getName() << std::endl;
+                                balance = balance - item->getPrice();
+                                std::cout << std::endl;
+                                std::cout << "Your balance is: $" << balance << std::endl;
+                                std::cout << std::endl;
+                            }
+                            else {
+                                std::cout << "The item already existed your inventory" << std::endl;
+                            }
                         
-                        auto result = inventory.insert(item->getName());
-                        if (result.second) {
-                            std::cout << "Successfully bought " << item->getName() << std::endl;
-                            balance = balance - item->getPrice();
-                            std::cout << std::endl;
-                            std::cout << "Your balance is: $" << balance << std::endl;
-                            std::cout << std::endl;
                         }
                         else {
-                            std::cout << "The item already existed your inventory" << std::endl;
+                            std::cout << "You do not have sufficient fund to purchase the item!" << std::endl;
+                            
                         }
                        
                         break;

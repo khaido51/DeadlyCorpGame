@@ -7,7 +7,7 @@
 #include <vector>
 #include <list>
 
-class MoonManager : public AbstractMoon {
+class MoonManager {
 private:
     std::vector<AbstractMoon*> moons;
     static const std::list<std::string> commands;
@@ -16,8 +16,8 @@ public:
     MoonManager();
     void registerMoon(AbstractMoon* moon);
     void processCommands(const std::string& commands);
-    void sellCargo(Game& g, int amount) override;
-    void sendEmployees(Game& g, int amount) override;
+    void showAllMoons();
+ 
 
 };
 

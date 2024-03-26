@@ -6,6 +6,10 @@
 
 class Game;
 class AbstractMoon {
+    enum class MoonWeather { Clear = 0, Flooded, Eclipsed, Stormy };
+protected:
+    std::string moonName;
+   
 public:
     AbstractMoon();
     virtual ~AbstractMoon();
