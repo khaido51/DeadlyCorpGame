@@ -33,6 +33,10 @@ int Game::showQuota()
     return quota;
 }
 
-void Game::processCommand(const std::string& commands)
+void Game::processCommand(const std::string& commands, std::string moonInGame)
 {
+    std::cout << "WELCOME TO " << moonInGame <<std::endl;
+    std::cout << "Current Cargo" << showCargo() << std::endl;
+    std::cout << "Current Balance" << showBalance() << std::endl;
+    
 }

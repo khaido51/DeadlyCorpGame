@@ -5,9 +5,11 @@
 #include "Game.h"
 #include "Moon.h"
 #include "MoonManager.h"
+#include "Game.h"
 #include "AbstractMoon.h"
 #include "ItemManager.h"
 #include <iostream>
+#include <map>
 #include <string>
 #include <list>
 
@@ -20,6 +22,9 @@ int main()
     int cargo = 0;
     int quota = 150;
     int maxDayCycle = 4;
+    bool orbitingPhase = false;
+    std::string moonInGame = "";
+    std:string moons[5] = { "Corporation", "Prototyping", "Insurance", "Pledge", "Defence" };
     ItemManager itemManager;
 
     //std::list<string> commands = { "moons", "store", "inventory" };
@@ -35,19 +40,27 @@ int main()
 
     Game game(cargo, balance, day, quota, itemManager);
     MoonManager moonManager;
-
-
+    
+    
+   
     AbstractMoon* moon = new Moon("Corporation");
     AbstractMoon* moon1 = new Moon("Prototyping");
     AbstractMoon* moon2 = new Moon("Insurance");
     AbstractMoon* moon3 = new Moon("Pledge");
     AbstractMoon* moon4 = new Moon("Defence");
+
+    
+    /*
+    //Set random weather for each moon
+    std::mt19937 myGenerator(std::random_device{}());
+    std::discrete_distribution<> dist({ 25, 25, 25, 25 });
+     */
     moonManager.registerMoon(moon);
     moonManager.registerMoon(moon1);
     moonManager.registerMoon(moon2);
     moonManager.registerMoon(moon3);
     moonManager.registerMoon(moon4);
-  
+ 
    
     
 
@@ -89,7 +102,19 @@ int main()
     while (true) {
         std::cin >> command;
         if (command == "moons") {
-            moonManager.processCommands(command);
+            int i; int j;
+            moonManager.processCommands(command, orbitingPhase, moonInGame);
+            if (orbitingPhase = true) {
+                std::cin >> command;
+                if (command == "land") {
+                    std::cout << "Now change to landing phase" << std::endl;
+                    std::cout << moonInGame  << std::endl;
+                    game.processCommand(command, moonInGame);
+
+
+                }
+            }
+           
         }
         else if (command == "store") {
             itemManager.processCommand(command, balance);

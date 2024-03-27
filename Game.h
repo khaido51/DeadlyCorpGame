@@ -14,6 +14,7 @@ private:
     int quota;
     ItemManager itemManager;
     static const std::list<std::string> commands;
+ 
     
 public:
     Game();
@@ -21,7 +22,7 @@ public:
     int showBalance();
     int showCargo();
     int showQuota();
-    void processCommand(const std::string& commands);
+    void processCommand(const std::string& commands, std::string moonInGame);
 };
 
 #endif // !GAME_H
