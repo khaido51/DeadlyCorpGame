@@ -12,13 +12,14 @@ private:
     int balance;
     int currentDay;
     int quota;
-    ItemManager itemManager;
+    int numberOfEmployees;
+    //ItemManager itemManager;
     static const std::list<std::string> commands;
  
     
 public:
     Game();
-    Game(int _cargo, int _balance, int _currentDay, int _quota, ItemManager _itemManager);
+    Game(int _cargo, int _balance, int _currentDay, int _quota, int _numberOfEmployees);
     int showBalance();
     int showCargo();
     int showQuota();

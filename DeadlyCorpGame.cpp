@@ -21,10 +21,10 @@ int main()
     int balance = 500;
     int cargo = 0;
     int quota = 150;
+    int numberOfEmployees = 4;
     int maxDayCycle = 4;
     bool orbitingPhase = false;
     std::string moonInGame = "";
-    std:string moons[5] = { "Corporation", "Prototyping", "Insurance", "Pledge", "Defence" };
     ItemManager itemManager;
 
     //std::list<string> commands = { "moons", "store", "inventory" };
@@ -38,7 +38,7 @@ int main()
     itemManager.registerItem(new Item("Backpack", 500));
     itemManager.registerItem(new Item("Hydraulics Mk2", 1000));
 
-    Game game(cargo, balance, day, quota, itemManager);
+    Game game(cargo, balance, day, quota, numberOfEmployees);
     MoonManager moonManager;
     
     
@@ -79,11 +79,10 @@ int main()
 
     std::cout << "Current Cargo Value: $" << game.showCargo() << std::endl;
     std::cout << "Current Balance Value: $" << game.showBalance() << std::endl;
-    std::cout << "Current quota: $" << game.showQuota() << "( " << maxDayCycle - day << " days left to meet qo" << std::endl;
+    std::cout << "Current quota: $" << game.showQuota() << "( " << maxDayCycle - day << " days left to meet quota)" << std::endl;
 
     std::cout << std::endl;
 
-    std::cout << "Test" << std::endl;
     std::cout << ">MOONS" << std::endl;
     std::cout << "To see the list of moons the autopilot can route to." << std::endl;
 
@@ -94,24 +93,26 @@ int main()
     
     std::cout << ">INVENTORY" << std::endl;
     std::cout << "To see the list of items you've already bought." << std::endl;
-
+    std::cout << std::endl;
     
     //If cases
+    std::cout << ">";
     std::string command = "";
     int error = 0;
     while (true) {
         std::cin >> command;
         if (command == "moons") {
             int i; int j;
-            moonManager.processCommands(command, orbitingPhase, moonInGame);
-            if (orbitingPhase = true) {
+            moonManager.processCommands(command, orbitingPhase, moonInGame, balance);
+            while (orbitingPhase = true) {
+                std::cout << ">";
                 std::cin >> command;
                 if (command == "land") {
                     std::cout << "Now change to landing phase" << std::endl;
-                    std::cout << moonInGame  << std::endl;
                     game.processCommand(command, moonInGame);
-
-
+                }
+                else {
+                    std::cout << "Invalid Command" << std::endl;
                 }
             }
            

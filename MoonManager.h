@@ -19,7 +19,7 @@ private:
 public:
     MoonManager();
     void registerMoon(AbstractMoon* moon);
-    void processCommands(const std::string& commands, bool& orbitingPhase, std::string& moonInGame );
+    void processCommands(const std::string& commands, bool& orbitingPhase, std::string& moonInGame, int& balance );
     void showAllMoons();
  
 
