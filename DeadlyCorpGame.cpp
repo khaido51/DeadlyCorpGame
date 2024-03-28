@@ -9,9 +9,9 @@
 #include "AbstractMoon.h"
 #include "ItemManager.h"
 #include <iostream>
-#include <map>
 #include <string>
 #include <list>
+#include "util.h"
 
 using namespace std; 
 int main()
@@ -48,7 +48,11 @@ int main()
     AbstractMoon* moon2 = new Moon("Insurance");
     AbstractMoon* moon3 = new Moon("Pledge");
     AbstractMoon* moon4 = new Moon("Defence");
-
+    moon->getRandomWeather();
+    moon1->getRandomWeather();
+    moon2->getRandomWeather();
+    moon3->getRandomWeather();
+    moon4->getRandomWeather();
     
     /*
     //Set random weather for each moon
@@ -98,11 +102,13 @@ int main()
     //If cases
     std::cout << ">";
     std::string command = "";
+
     int error = 0;
     while (true) {
         std::cin >> command;
+        //change to lower case
+        util::lower(command);
         if (command == "moons") {
-            int i; int j;
             moonManager.processCommands(command, orbitingPhase, moonInGame, balance);
             while (orbitingPhase = true) {
                 std::cout << ">";

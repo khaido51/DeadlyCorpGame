@@ -25,7 +25,6 @@ const std::string& AbstractMoon::name() const
 
 
 
-
 void AbstractMoon::onDayBegin(Game& g)
 {
 

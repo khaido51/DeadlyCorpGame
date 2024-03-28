@@ -14,7 +14,22 @@ void MoonManager::registerMoon(AbstractMoon* moon)
 void MoonManager::showAllMoons()
 {
 	for (const auto& moon : moons) {
-		std::cout << "* " << moon->name() << std::endl;
+		std::cout << "* " << moon->name() << " ";
+		switch (moon->getRandomWeather()) {
+		case MoonWeather::Clear:
+			std::cout << "";
+			break;
+		case MoonWeather::Stormy:
+			std::cout << "(Stormy)";
+			break;
+		case MoonWeather::Flooded:
+			std::cout << "(Flooded)";
+			break;
+		case MoonWeather::Eclipsed:
+			std::cout << "(Eclipsed)";
+			break;
+		}
+			std::cout << std::endl;
 	}
 
 	

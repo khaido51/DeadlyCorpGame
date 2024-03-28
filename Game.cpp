@@ -44,7 +44,7 @@ void Game::processCommand(const std::string& commands, std::string moonInGame)
     std::cout << "Proceed with caution as the moon is currently " << numberOfEmployees << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Type SEND followed by the number of employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;
+    std::cout << "Type SEND followed by the number of   employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;
     std::cout << "Type LEave to leave the planet." << std::endl;
     std::cout << std::endl;
 

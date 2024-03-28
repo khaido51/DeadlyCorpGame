@@ -3,6 +3,7 @@
 
 #include "AbstractMoon.h"
 #include <string>
+#include <random>
 
 
 class Moon : public AbstractMoon {
@@ -14,6 +15,8 @@ private:
 public:
     Moon(const std::string _name);
     std::string getName();
+    MoonWeather getRandomWeather() override;
+    void onDayBegin(Game& g) override;
     void sellCargo(Game& g, int amount) override;
     void sendEmployees(Game& g, int amount) override;
 };
