@@ -124,3 +124,8 @@ void Game::processCommand(const std::string& commands, std::string moonInGame, s
 
 }
 
+void Game::handleAllCommand() {
+
+}
+
+

@@ -32,6 +32,7 @@ public:
     int showBalance();
     int showCargo();
     int showQuota();
+    void handleAllCommand();
     void processCommand(const std::string& commands, std::string moonInGame, std::string weatherInMoon);
 };
 

@@ -54,7 +54,13 @@ void MoonManager::processCommands(const std::string& command, bool& orbitingPhas
 	if (command == "route") {
 		bool foundMoon = false;
 		for (const auto& moon : moons) {
-			if (moon->name() == arguments[0]) {
+			//converting moon to lower case
+			const std::string& moonName = moon->name();
+			std::string lowerCaseMoonName = moonName;
+			util::lower(lowerCaseMoonName);
+			
+			//checking moon name that equals to argument
+			if (lowerCaseMoonName == arguments[0]) {
 				std::cout << "Now orbiting to " << moon->name() << " Use Land command to land" << std::endl;
 				std::cout << std::endl;
 				foundMoon = true;

@@ -56,7 +56,12 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
         bool foundItem = false; //use it as a flag when user input does not match with item name
         //loop to get all item in set of items
         for (auto item : items) {
-            if (item->getName() == arguments[0]) {
+            //convert itemName to lower case
+            const std::string& itemName = item->getName();
+            std::string lowerItemName = itemName;
+            util::lower(lowerItemName);
+
+            if (lowerItemName == arguments[0]) {
                 //check balance to buy appropriate item
                 if (balance >= item->getPrice()) {
                     //add item to set of inventory
@@ -75,6 +80,7 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
                     }
                     else {
                         std::cout << "The item already existed your inventory" << std::endl;
+                        break;
                     }
                 }
                 else {

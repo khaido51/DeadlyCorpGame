@@ -25,6 +25,7 @@ int main()
     int quota = 150;
     int numberOfEmployees = 4;
     int maxDayCycle = 4;
+   
     
     std::string moonInGame = "";
     std::string weatherInMoon = "";
@@ -109,15 +110,20 @@ int main()
                     else if (command == "route") {
                         moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
 
-
                     }
                     else if (command == "buy") {
                         itemManager.processCommand(command, balance, arguments);
 
                     }
+                    else if (command == "sell") {
+                        
+                    }
+                    else if (command == "send") {
 
-                   
+                    }
+                    else if (command == "leave") {
 
+                    }
                 }
             }
         }

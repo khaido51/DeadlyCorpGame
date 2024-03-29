@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include "util.h"
 
 class Game;
 enum class MoonWeather { Clear = 0, Flooded, Eclipsed, Stormy };
