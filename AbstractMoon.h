@@ -13,6 +13,7 @@ class AbstractMoon {
     
 protected:
     std::string moonName;
+    MoonWeather _moonWeather;
    
    
 public:

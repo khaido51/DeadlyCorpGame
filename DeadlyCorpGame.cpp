@@ -25,12 +25,11 @@ int main()
     int quota = 150;
     int numberOfEmployees = 4;
     int maxDayCycle = 4;
+    
    
     
     std::string moonInGame = "";
     std::string weatherInMoon = "";
-    
-
 
     Game game(cargo, balance, day, quota, numberOfEmployees, maxDayCycle);
     MoonManager moonManager;
@@ -51,6 +50,8 @@ int main()
     std::string command = "";
     std::vector<std::string> arguments;
     bool foundPhase = false;
+
+    
     while (true) {
         //user input
         std::cout << ">";
@@ -69,16 +70,16 @@ int main()
                         moonManager.processCommands(command, orbitPhase, moonInGame, balance,arguments, weatherInMoon);                    
                     }
                     else if (command == "store") {
-                        itemManager.processCommand(command, balance, arguments);
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "inventory") {
-                        itemManager.processCommand(command, balance, arguments);                      
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "route") {
                         moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
                  }
                     else if (command == "buy") {
-                        itemManager.processCommand(command, balance, arguments);        
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "land") {
                         game.processCommand(command, moonInGame, weatherInMoon);
@@ -98,12 +99,12 @@ int main()
 
                     }
                     else if (command == "store") {
-                        itemManager.processCommand(command, balance, arguments);
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
 
 
                     }
                     else if (command == "inventory") {
-                        itemManager.processCommand(command, balance, arguments);
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
 
 
                     }
@@ -112,7 +113,7 @@ int main()
 
                     }
                     else if (command == "buy") {
-                        itemManager.processCommand(command, balance, arguments);
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
 
                     }
                     else if (command == "sell") {
@@ -121,8 +122,7 @@ int main()
                     else if (command == "send") {
 
                     }
-                    else if (command == "leave") {
-
+                    else if (command == "leave"){
                     }
                 }
             }

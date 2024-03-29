@@ -26,7 +26,7 @@ public:
     ItemManager();
     void showAllItems();
     void showInventory();
-    void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments);
+    void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments, int cargo, int quota);
     void registerItem(Item* item);
 };
 #endif // !ITEMMANAGER_H

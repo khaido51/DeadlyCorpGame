@@ -34,6 +34,7 @@ void Game::initializeGame()
     std::cout << "Current Cargo Value: $" << cargo  << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
     std::cout << "Current quota: $" << quota << "( " << maxCycleDay - currentDay << " days left to meet quota)" << std::endl;
+    std::cout << "Current orbiting: " << std::endl;
 
     std::cout << std::endl;
 
@@ -82,11 +83,7 @@ void Game::createMoons(MoonManager &moonManager)
     moonManager.registerMoon(moon3);
     moonManager.registerMoon(moon4);
 
-    moon->getRandomWeather();
-    moon1->getRandomWeather();
-    moon2->getRandomWeather();
-    moon3->getRandomWeather();
-    moon4->getRandomWeather();
+
 }
 
 
@@ -101,7 +98,7 @@ void Game::createItems(ItemManager& itemManager)
     itemManager.registerItem(new Item("Teleporter", 300));
     itemManager.registerItem(new Item("Inverse-Teleporter", 400));
     itemManager.registerItem(new Item("Backpack", 500));
-    itemManager.registerItem(new Item("Hydraulics Mk2", 1000));
+    itemManager.registerItem(new Item("Hydraulics-Mk2", 1000));
 }
 
 
@@ -114,9 +111,15 @@ void Game::processCommand(const std::string& commands, std::string moonInGame, s
     std::cout << "Current Balance value: " << balance << std::endl;
     std::cout << "Current quota: " << quota << std::endl;
     std::cout << "Number of employees: " << numberOfEmployees << std::endl;
-    std::cout << "Proceed with caution as the moon is currently "  << weatherInMoon << std::endl;
-    std::cout << weatherInMoon << std::endl;
-    std::cout << std::endl;
+    if (weatherInMoon == "Clear") {
+        
+    }
+    else {
+        std::cout << "Proceed with caution as the moon is currently " << weatherInMoon << std::endl;
+     
+        std::cout << std::endl;
+    }
+   
 
     std::cout << "Type SEND followed by the number of employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;
     std::cout << "Type LEave to leave the planet." << std::endl;

@@ -29,12 +29,12 @@ void ItemManager::showAllItems()
 void ItemManager::showInventory()
 {
     for (const auto& purchasedItem: inventory ) {
-        std::cout << purchasedItem << std::endl;
+        std::cout << "* " << purchasedItem << std::endl;
     }
 }
 
 //processing commands
-void ItemManager::processCommand(const std::string& command, int& balance, std::vector<std::string> arguments)
+void ItemManager::processCommand(const std::string& command, int& balance, std::vector<std::string> arguments, int cargo, int quota)
 {
 
 
@@ -104,12 +104,14 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
 
         if (inventory.empty()) {
             std::cout << "You have not purchased any item yet!!" << std::endl;
-            std::cout << "Your balance is: $" << balance << std::endl;
+         
             std::cout << std::endl;
         }
         showInventory();
         std::cout << std::endl;
-        std::cout << "Your balance is: $" << balance << std::endl;
+        std::cout << "Your balance is: $" << balance << "(quota is " << quota << ")" << std::endl;
+        std::cout << "Cargo value: " << cargo << std::endl;
+        std::cout << std::endl;
         return;
     }
   
