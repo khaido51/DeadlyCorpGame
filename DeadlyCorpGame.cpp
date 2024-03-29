@@ -3,9 +3,8 @@
 
 #include "DeadlyCorpGame.h"
 #include "Game.h"
-#include "Moon.h"
+#include "Item.h"
 #include "MoonManager.h"
-#include "Game.h"
 #include "AbstractMoon.h"
 #include "ItemManager.h"
 #include <iostream>
@@ -13,9 +12,12 @@
 #include <list>
 #include "util.h"
 
-using namespace std; 
+
+
+
 int main()
 {
+    
     //Initialize to default value for each variable when the game start
     int day = 1;
     int balance = 500;
@@ -23,116 +25,108 @@ int main()
     int quota = 150;
     int numberOfEmployees = 4;
     int maxDayCycle = 4;
-    bool orbitingPhase = false;
+    
     std::string moonInGame = "";
+    std::string weatherInMoon = "";
+    
+
+
+    Game game(cargo, balance, day, quota, numberOfEmployees, maxDayCycle);
+    MoonManager moonManager;
     ItemManager itemManager;
 
-    //std::list<string> commands = { "moons", "store", "inventory" };
+    game.initializeGame();
+    game.createItems(itemManager);
+    game.createMoons(moonManager);
 
-    //Create new Item
-    itemManager.registerItem(new Item("Flashlight", 60));
-    itemManager.registerItem(new Item("Shovel", 100));
-    itemManager.registerItem(new Item("Pro-flashlight", 200));
-    itemManager.registerItem(new Item("Teleporter", 300));
-    itemManager.registerItem(new Item("Inverse-Teleporter", 400));
-    itemManager.registerItem(new Item("Backpack", 500));
-    itemManager.registerItem(new Item("Hydraulics Mk2", 1000));
 
-    Game game(cargo, balance, day, quota, numberOfEmployees);
-    MoonManager moonManager;
-    
-    
+
+    std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit" };
+    std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell" };
+
+
+    bool orbitPhase = false;
    
-    AbstractMoon* moon = new Moon("Corporation");
-    AbstractMoon* moon1 = new Moon("Prototyping");
-    AbstractMoon* moon2 = new Moon("Insurance");
-    AbstractMoon* moon3 = new Moon("Pledge");
-    AbstractMoon* moon4 = new Moon("Defence");
-    moon->getRandomWeather();
-    moon1->getRandomWeather();
-    moon2->getRandomWeather();
-    moon3->getRandomWeather();
-    moon4->getRandomWeather();
-    
-    /*
-    //Set random weather for each moon
-    std::mt19937 myGenerator(std::random_device{}());
-    std::discrete_distribution<> dist({ 25, 25, 25, 25 });
-     */
-    moonManager.registerMoon(moon);
-    moonManager.registerMoon(moon1);
-    moonManager.registerMoon(moon2);
-    moonManager.registerMoon(moon3);
-    moonManager.registerMoon(moon4);
- 
-   
-    
-
-
-    //Welcome screen
-    std::cout << "    ___               _ _           ___                 \n" \
-        "   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
-        "  / /\\ / _ \\/ _` |/ _` | | | | |  / /  / _ \\| '__| '_ \\ \n" \
-        " / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
-        "/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
-        "                          |___/                  |_|    " << std::endl;
-
-    std::cout << "Welcome!" << std::endl;
-    std::cout << "We trust you will be a great asset to the corporation" << std::endl;
-    std::cout << "==============" << " DAY " << day << "====================" << std::endl;
-
-    std::cout << "Current Cargo Value: $" << game.showCargo() << std::endl;
-    std::cout << "Current Balance Value: $" << game.showBalance() << std::endl;
-    std::cout << "Current quota: $" << game.showQuota() << "( " << maxDayCycle - day << " days left to meet quota)" << std::endl;
-
-    std::cout << std::endl;
-
-    std::cout << ">MOONS" << std::endl;
-    std::cout << "To see the list of moons the autopilot can route to." << std::endl;
-
-
-    std::cout << ">STORE" << std::endl;
-    std::cout << "To see the company store's selection of useful items." << std::endl;
-
-    
-    std::cout << ">INVENTORY" << std::endl;
-    std::cout << "To see the list of items you've already bought." << std::endl;
-    std::cout << std::endl;
-    
-    //If cases
-    std::cout << ">";
     std::string command = "";
-
-    int error = 0;
+    std::vector<std::string> arguments;
+    bool foundPhase = false;
     while (true) {
-        std::cin >> command;
+        //user input
+        std::cout << ">";
+        std::getline(std::cin >> std::ws, command);
+        util::splitArguments(command, arguments);
         //change to lower case
         util::lower(command);
-        if (command == "moons") {
-            moonManager.processCommands(command, orbitingPhase, moonInGame, balance);
-            while (orbitingPhase = true) {
-                std::cout << ">";
-                std::cin >> command;
-                if (command == "land") {
-                    std::cout << "Now change to landing phase" << std::endl;
-                    game.processCommand(command, moonInGame);
-                }
-                else {
-                    std::cout << "Invalid Command" << std::endl;
+        //check for orbiting phase
+        if (orbitPhase = true) {
+            //loop through orbitingPhase
+            for (auto phase : orbitingPhase) {
+                if (command == phase) {
+                    foundPhase = true;
+                   
+                    if (command == "moons") {
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance,arguments, weatherInMoon);                    
+                    }
+                    else if (command == "store") {
+                        itemManager.processCommand(command, balance, arguments);
+                    }
+                    else if (command == "inventory") {
+                        itemManager.processCommand(command, balance, arguments);                      
+                    }
+                    else if (command == "route") {
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
+                 }
+                    else if (command == "buy") {
+                        itemManager.processCommand(command, balance, arguments);        
+                    }
+                    else if (command == "land") {
+                        game.processCommand(command, moonInGame, weatherInMoon);
+                        orbitPhase = false;
+                        break; 
+                    }
+                }             
+            }
+        }
+        else if (orbitPhase = false) {
+            for (auto phase : landingPhase) {
+                if (command == phase) {
+                    foundPhase = true;
+
+                    if (command == "moons") {
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
+
+                    }
+                    else if (command == "store") {
+                        itemManager.processCommand(command, balance, arguments);
+
+
+                    }
+                    else if (command == "inventory") {
+                        itemManager.processCommand(command, balance, arguments);
+
+
+                    }
+                    else if (command == "route") {
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
+
+
+                    }
+                    else if (command == "buy") {
+                        itemManager.processCommand(command, balance, arguments);
+
+                    }
+
+                   
+
                 }
             }
-           
-        }
-        else if (command == "store") {
-            itemManager.processCommand(command, balance);
-        }
-        else if (command == "inventory") {
-            itemManager.processCommand(command, balance);
         }
         else {
-            std::cout << "Invalid Command" << std::endl;
+            foundPhase = false;
         }
-
+        if (!foundPhase) {
+            std::cout << "Invalid Command!!" << std::endl; 
+        }
         
     }
 

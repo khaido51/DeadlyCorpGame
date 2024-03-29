@@ -12,8 +12,12 @@
 
 class ItemManager {
 private:
-   
+    
     static const std::list<std::string> commands;
+    
+    
+
+public:
     std::vector<Item*> items;
     std::vector<std::string> arguments;
     std::set<std::string> inventory;
@@ -22,7 +26,7 @@ public:
     ItemManager();
     void showAllItems();
     void showInventory();
-    void processCommand(const std::string& command, int& balance);
+    void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments);
     void registerItem(Item* item);
 };
 #endif // !ITEMMANAGER_H

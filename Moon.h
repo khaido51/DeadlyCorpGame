@@ -9,8 +9,6 @@
 class Moon : public AbstractMoon {
 private:
     std::string name;
-   
-   
 
 public:
     Moon(const std::string _name);

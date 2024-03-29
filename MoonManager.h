@@ -2,6 +2,7 @@
 #define MOONMANAGER_H
 
 #include "AbstractMoon.h"
+#include "Moon.h"
 #include "util.h"
 #include <iostream>
 #include <string>
@@ -19,8 +20,8 @@ private:
 public:
     MoonManager();
     void registerMoon(AbstractMoon* moon);
-    void processCommands(const std::string& commands, bool& orbitingPhase, std::string& moonInGame, int& balance );
-    void showAllMoons();
+    void processCommands(const std::string& command, bool& orbitingPhase, std::string& moonInGame, int& balance, std::vector<std::string> arguments, std::string weatherInMoon);
+    void showAllMoons(std::string weatherInMoon);
  
 
 };
