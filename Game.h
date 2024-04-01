@@ -20,20 +20,20 @@ private:
     MoonManager moonManager;
     static const std::list<std::string> commands;
 
-   
- 
-    
+
+
+
 public:
     Game();
     Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay);
     void initializeGame();
-    void createItems(ItemManager &itemManager);
-    void createMoons(MoonManager &moonManager);
+    void createItems(ItemManager& itemManager);
+    void createMoons(MoonManager& moonManager);
     int showBalance();
     int showCargo();
     int showQuota();
     void handleAllCommand();
-    void processCommand(const std::string& commands, std::string moonInGame, std::string weatherInMoon);
+    void processCommand(const std::string& commands, std::string moonInGame);
 };
 
 #endif // !GAME_H

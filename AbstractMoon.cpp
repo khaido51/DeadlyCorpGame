@@ -23,6 +23,11 @@ const std::string& AbstractMoon::name() const
     return moonName;
 }
 
+const MoonWeather AbstractMoon::getMoonWeather() const
+{
+    return _moonWeather;
+}
+
 
 
 

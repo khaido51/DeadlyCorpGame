@@ -1,8 +1,9 @@
 #include "Moon.h"
 
-Moon::Moon(const std::string _name)
+Moon::Moon(const std::string _name, MoonWeather _moonWeather)
 {
     moonName = _name;
+    moonWeather = _moonWeather;
   
 }
 
@@ -11,6 +12,7 @@ std::string Moon::getName()
 {
     return name;
 }
+
 
 //derived a getRandomWeather function in abstract class
 MoonWeather Moon::getRandomWeather()
@@ -21,11 +23,13 @@ MoonWeather Moon::getRandomWeather()
     std::uniform_int_distribution<int> weatherDistribution(0, 3);
     int myRandomWeather = weatherDistribution(myGenerator);
     MoonWeather randomMoonWeather = static_cast<MoonWeather>(myRandomWeather);
-    return randomMoonWeather;
+    _moonWeather = randomMoonWeather;
+    return _moonWeather;
 }
 
 void Moon::onDayBegin(Game& g)
 {
+
 }
 
 

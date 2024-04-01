@@ -60,7 +60,8 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
             const std::string& itemName = item->getName();
             std::string lowerItemName = itemName;
             util::lower(lowerItemName);
-
+            util::lower(arguments[0]);
+            //check itemname == arguments
             if (lowerItemName == arguments[0]) {
                 //check balance to buy appropriate item
                 if (balance >= item->getPrice()) {

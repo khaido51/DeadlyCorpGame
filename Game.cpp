@@ -31,7 +31,7 @@ void Game::initializeGame()
     std::cout << "We trust you will be a great asset to the corporation" << std::endl;
     std::cout << "==============" << " DAY " << currentDay << "====================" << std::endl;
 
-    std::cout << "Current Cargo Value: $" << cargo  << std::endl;
+    std::cout << "Current Cargo Value: $" << cargo << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
     std::cout << "Current quota: $" << quota << "( " << maxCycleDay - currentDay << " days left to meet quota)" << std::endl;
     std::cout << "Current orbiting: " << std::endl;
@@ -69,13 +69,13 @@ int Game::showQuota()
 }
 
 
-void Game::createMoons(MoonManager &moonManager)
+void Game::createMoons(MoonManager& moonManager)
 {
-    AbstractMoon* moon = new Moon("Corporation");
-    AbstractMoon* moon1 = new Moon("Prototyping");
-    AbstractMoon* moon2 = new Moon("Insurance");
-    AbstractMoon* moon3 = new Moon("Pledge");
-    AbstractMoon* moon4 = new Moon("Defence");
+    AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear);
+    AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear);
+    AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear);
+    AbstractMoon* moon3 = new Moon("Pledge", MoonWeather::Clear);
+    AbstractMoon* moon4 = new Moon("Defence", MoonWeather::Clear);
 
     moonManager.registerMoon(moon);
     moonManager.registerMoon(moon1);
@@ -102,23 +102,15 @@ void Game::createItems(ItemManager& itemManager)
 }
 
 
-void Game::processCommand(const std::string& commands, std::string moonInGame, std::string weatherInMoon)
+void Game::processCommand(const std::string& commands, std::string moonInGame)
 {
-    std::cout << "WELCOME TO " << moonInGame <<std::endl;
+    std::cout << "WELCOME TO " << moonInGame << std::endl;
     std::cout << std::endl;
 
     std::cout << "Current Cargo value: " << cargo << std::endl;
     std::cout << "Current Balance value: " << balance << std::endl;
     std::cout << "Current quota: " << quota << std::endl;
     std::cout << "Number of employees: " << numberOfEmployees << std::endl;
-    if (weatherInMoon == "Clear") {
-        
-    }
-    else {
-        std::cout << "Proceed with caution as the moon is currently " << weatherInMoon << std::endl;
-     
-        std::cout << std::endl;
-    }
    
 
     std::cout << "Type SEND followed by the number of employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;

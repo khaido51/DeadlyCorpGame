@@ -9,9 +9,10 @@
 class Moon : public AbstractMoon {
 private:
     std::string name;
+    MoonWeather moonWeather;
 
 public:
-    Moon(const std::string _name);
+    Moon(const std::string _name, MoonWeather moonWeather);
     std::string getName();
     MoonWeather getRandomWeather() override;
     void onDayBegin(Game& g) override;

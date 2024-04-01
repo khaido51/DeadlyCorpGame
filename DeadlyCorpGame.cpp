@@ -17,7 +17,7 @@
 
 int main()
 {
-    
+
     //Initialize to default value for each variable when the game start
     int day = 1;
     int balance = 500;
@@ -25,11 +25,11 @@ int main()
     int quota = 150;
     int numberOfEmployees = 4;
     int maxDayCycle = 4;
-    
-   
-    
+
+
+
     std::string moonInGame = "";
-    std::string weatherInMoon = "";
+   
 
     Game game(cargo, balance, day, quota, numberOfEmployees, maxDayCycle);
     MoonManager moonManager;
@@ -46,12 +46,12 @@ int main()
 
 
     bool orbitPhase = false;
-   
+
     std::string command = "";
     std::vector<std::string> arguments;
     bool foundPhase = false;
 
-    
+
     while (true) {
         //user input
         std::cout << ">";
@@ -65,9 +65,9 @@ int main()
             for (auto phase : orbitingPhase) {
                 if (command == phase) {
                     foundPhase = true;
-                   
+
                     if (command == "moons") {
-                        moonManager.processCommands(command, orbitPhase, moonInGame, balance,arguments, weatherInMoon);                    
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments);
                     }
                     else if (command == "store") {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
@@ -76,17 +76,17 @@ int main()
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "route") {
-                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
-                 }
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments);
+                    }
                     else if (command == "buy") {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "land") {
-                        game.processCommand(command, moonInGame, weatherInMoon);
+                        game.processCommand(command, moonInGame);
                         orbitPhase = false;
-                        break; 
+                        break;
                     }
-                }             
+                }
             }
         }
         else if (orbitPhase = false) {
@@ -95,7 +95,7 @@ int main()
                     foundPhase = true;
 
                     if (command == "moons") {
-                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments);
 
                     }
                     else if (command == "store") {
@@ -109,7 +109,7 @@ int main()
 
                     }
                     else if (command == "route") {
-                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments, weatherInMoon);
+                        moonManager.processCommands(command, orbitPhase, moonInGame, balance, arguments);
 
                     }
                     else if (command == "buy") {
@@ -117,12 +117,12 @@ int main()
 
                     }
                     else if (command == "sell") {
-                        
+
                     }
                     else if (command == "send") {
 
                     }
-                    else if (command == "leave"){
+                    else if (command == "leave") {
                     }
                 }
             }
@@ -131,11 +131,11 @@ int main()
             foundPhase = false;
         }
         if (!foundPhase) {
-            std::cout << "Invalid Command!!" << std::endl; 
+            std::cout << "Invalid Command!!" << std::endl;
         }
-        
+
     }
 
-	return 0;
+    return 0;
 
 }

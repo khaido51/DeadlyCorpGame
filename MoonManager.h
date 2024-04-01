@@ -20,10 +20,10 @@ private:
 public:
     MoonManager();
     void registerMoon(AbstractMoon* moon);
-    void showAllMoons(std::string& weatherInMoon);
-    void processCommands(const std::string& command, bool& orbitingPhase, std::string& moonInGame, int& balance, std::vector<std::string> arguments, std::string& weatherInMoon);
-    
- 
+    void showAllMoons();
+    void processCommands(const std::string& command, bool& orbitingPhase, std::string& moonInGame, int& balance, std::vector<std::string> arguments);
+
+
 
 };
 
