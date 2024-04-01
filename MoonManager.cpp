@@ -48,7 +48,7 @@ void MoonManager::showAllMoons()
 
 }
 
-void MoonManager::processCommands(const std::string& command, bool& orbitingPhase, std::string& moonInGame, int& balance, std::vector<std::string> arguments)
+void MoonManager::processCommands(const std::string& command, std::string& moonInGame, int& balance, std::vector<std::string> arguments, MoonWeather& weatherInMoon)
 {
 	
 
@@ -77,24 +77,19 @@ void MoonManager::processCommands(const std::string& command, bool& orbitingPhas
 				std::cout << std::endl;
 				foundMoon = true;
 				moonInGame = moon->name();
-				
-				switch (moon->getMoonWeather()) {
+				weatherInMoon = moon->getMoonWeather();
+				switch (weatherInMoon) {
 				case MoonWeather::Clear:
 					std::cout << "";
-					//assign weatherInMoon
 					break;
 				case MoonWeather::Stormy:
 					std::cout << "(Stormy)";
-					//assign weatherInMoon
 					break;
 				case MoonWeather::Flooded:
 					std::cout << "(Flooded)";
-					//assign weatherInMoon
 					break;
 				case MoonWeather::Eclipsed:
 					std::cout << "(Eclipsed)";
-					//assign weatherInMoon
-
 					break;
 				}
 				std::cout << "Balance: $" << balance << std::endl;
@@ -106,6 +101,14 @@ void MoonManager::processCommands(const std::string& command, bool& orbitingPhas
 		if (!foundMoon) {
 			std::cout << "Incorrect moon" << std::endl;
 		}
+	}
+
+}
+
+void MoonManager::orbitingMoon()
+{
+	for (AbstractMoon* orbitingMoon : moons) {
+		std::cout << orbitingMoon->name() << std::endl;
 	}
 
 }

@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 const std::list<std::string> Game::commands = { "land", "leave", "exit" };
 
 Game::Game()
@@ -26,6 +27,7 @@ void Game::initializeGame()
         " / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
         "/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
         "                          |___/                  |_|    " << std::endl;
+  
 
     std::cout << "Welcome!" << std::endl;
     std::cout << "We trust you will be a great asset to the corporation" << std::endl;
@@ -71,11 +73,11 @@ int Game::showQuota()
 
 void Game::createMoons(MoonManager& moonManager)
 {
-    AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear);
-    AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear);
-    AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear);
-    AbstractMoon* moon3 = new Moon("Pledge", MoonWeather::Clear);
-    AbstractMoon* moon4 = new Moon("Defence", MoonWeather::Clear);
+    AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear,1,1,1);
+    AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear, 3, 30, 0.5);
+    AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear, 5, 50, 0.45);
+    AbstractMoon* moon3 = new Moon("Pledge", MoonWeather::Clear, 30, 50, 0.40);
+    AbstractMoon* moon4 = new Moon("Defence", MoonWeather::Clear, 10, 70, 0.35);
 
     moonManager.registerMoon(moon);
     moonManager.registerMoon(moon1);
@@ -85,7 +87,6 @@ void Game::createMoons(MoonManager& moonManager)
 
 
 }
-
 
 
 
@@ -102,25 +103,65 @@ void Game::createItems(ItemManager& itemManager)
 }
 
 
-void Game::processCommand(const std::string& commands, std::string moonInGame)
+void Game::processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon)
 {
+    std::cout << std::endl;
     std::cout << "WELCOME TO " << moonInGame << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Current Cargo value: " << cargo << std::endl;
-    std::cout << "Current Balance value: " << balance << std::endl;
-    std::cout << "Current quota: " << quota << std::endl;
+    std::cout << "Current Cargo value: $" << cargo << std::endl;
+    std::cout << "Current Balance value: $" << balance << std::endl;
+    std::cout << "Current quota: $" << quota << std::endl;
     std::cout << "Number of employees: " << numberOfEmployees << std::endl;
-   
-
+    
+        switch (weatherInMoon) {
+        case MoonWeather::Clear:
+            std::cout << "";
+            //assign weatherInMoon
+            break;
+        case MoonWeather::Stormy:
+            std::cout << "Proceed with caution as the moon is currently stormy";
+            //assign weatherInMoon
+            break;
+        case MoonWeather::Flooded:
+            std::cout << "Proceed with caution as the moon is currently stormy flooded";
+            //assign weatherInMoon
+            break;
+        case MoonWeather::Eclipsed:
+            std::cout << "Proceed with caution as the moon is currently stormy eclipsed";
+            //assign weatherInMoon
+            break;
+        }
+    std::cout << std::endl;
+    std::cout << std::endl;
     std::cout << "Type SEND followed by the number of employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;
-    std::cout << "Type LEave to leave the planet." << std::endl;
+    std::cout << "Type LEAVE to leave the planet." << std::endl;
     std::cout << std::endl;
 
 }
 
-void Game::handleAllCommand() {
-
+int Game::showCurrentDay()
+{
+    return currentDay;
 }
+
+void Game::setCurrentDay(int newDay)
+{
+    currentDay = newDay;
+}
+
+std::string& Game::getCurrentMoon() {
+    return currentMoon;
+}
+
+void Game::setCurrentMoon(std::string& moonName) {
+    currentMoon = moonName;
+}
+
+void Game::landedOnMoon(std::string moonInGame) {
+    
+}
+
+
 
 

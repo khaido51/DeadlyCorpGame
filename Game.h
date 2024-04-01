@@ -16,6 +16,7 @@ private:
     int quota;
     int numberOfEmployees;
     int maxCycleDay;
+    std::string currentMoon;
     ItemManager itemManager;
     MoonManager moonManager;
     static const std::list<std::string> commands;
@@ -32,8 +33,12 @@ public:
     int showBalance();
     int showCargo();
     int showQuota();
-    void handleAllCommand();
-    void processCommand(const std::string& commands, std::string moonInGame);
+    int showCurrentDay();
+    std::string& getCurrentMoon();
+    void setCurrentMoon(std::string& moonName);
+    void setCurrentDay(int newDay);
+    void landedOnMoon(std::string moonInGame);
+    void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);
 };
 
 #endif // !GAME_H
