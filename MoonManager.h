@@ -23,7 +23,7 @@ public:
     void showAllMoons();
     const std::vector<AbstractMoon*>& getOrbitingMoon() const;
     void processCommands(const std::string& command, std::string& moonInGame, int& balance, std::vector<std::string> arguments, MoonWeather& weatherInMoon);
-
+    AbstractMoon* findMoon(std::string moonInGame);
 
 };
 

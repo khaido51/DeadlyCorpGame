@@ -41,9 +41,23 @@ int main()
 
     game.createItems(itemManager);
     game.createMoons(moonManager);
-    game.initializeGame();
+    game.initializeGame(moonInGame);
     
 
+    /*
+    // Get a reference to the random number generator
+    std::mt19937& rng = game.getRNG();
+
+    // Use rng to generate random numbers
+    std::uniform_real_distribution <float> dist(0, 1);
+    float randomNumber = dist(rng);
+
+    // Output the generated random number
+    std::cout << "Random number: " << randomNumber << std::endl;
+    */
+
+    
+    
     std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit" };
     std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell", "leave", "route"};
 
@@ -69,7 +83,6 @@ int main()
             for (auto phase : orbitingPhase) {
                 if (command == phase) {
                     foundPhase = true;
-
                     if (command == "moons") {
                         moonManager.processCommands(command, moonInGame, balance, arguments, weatherInMoon);
                     }

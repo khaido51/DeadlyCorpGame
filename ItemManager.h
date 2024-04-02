@@ -18,7 +18,7 @@ private:
 public:
     std::vector<Item*> items;
     std::vector<std::string> arguments;
-    std::set<std::string> inventory;
+    std::set<Item*> inventory;
 
 public:
     ItemManager();
@@ -27,5 +27,7 @@ public:
     const std::vector<Item*>& getItems() const;
     void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments, int cargo, int quota);
     void registerItem(Item* item);
+    Item* findItemInInventory();
+    std::set<Item*> getInventory();
 };
 #endif // !ITEMMANAGER_H

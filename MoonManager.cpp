@@ -73,9 +73,15 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 			std::string lowerCaseMoonName = moonName;
 			util::lower(lowerCaseMoonName);
 			util::lower(arguments[0]);
-
+			util::lower(moonInGame);
 			//checking moon name equals to arguments
-			if (lowerCaseMoonName == arguments[0]) {
+			if (lowerCaseMoonName == arguments[0]) 
+			{
+				if (arguments[0] == moonInGame) {
+					std::cout << "Already orbiting " << moonInGame << std::endl;
+					return;
+				}
+
 				std::cout << "Now orbiting to " << moon->name() << " Use Land command to land" << std::endl;
 				std::cout << std::endl;
 				foundMoon = true;
@@ -108,7 +114,13 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 
 }
 
-
+AbstractMoon* MoonManager::findMoon(std::string moonInGame) {
+	for (AbstractMoon* moon : moons) {
+		if (moonInGame == moon->name()) {
+			return moon;
+		}
+	}
+}
 
 
 

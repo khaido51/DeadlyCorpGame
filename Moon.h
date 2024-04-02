@@ -22,6 +22,9 @@ public:
     void onDayBegin(Game& g) override;
     void sellCargo(Game& g, int amount) override;
     void sendEmployees(Game& g, int amount) override;
+    float getMinimumScrapValue();
+    float getMaxScrapValue();
+    float getBaseSurvivalChance();
 };
 
 #endif // !MOON_H

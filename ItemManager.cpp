@@ -5,7 +5,7 @@
 //Create a vector with Item type to store a list of items in ItemManager class
 std::vector<Item*> items;
 std::vector<std::string> arguments;
-std::set<std::string*> inventory;
+std::set<Item*> inventory;
 
 ItemManager::ItemManager()
 {
@@ -28,8 +28,8 @@ void ItemManager::showAllItems()
 
 void ItemManager::showInventory()
 {
-    for (const auto& purchasedItem: inventory ) {
-        std::cout << "* " << purchasedItem << std::endl;
+    for (Item* purchasedItem: inventory ) {
+        std::cout << "* " << purchasedItem->getName() << std::endl;
     }
 }
 
@@ -55,34 +55,54 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
     if (command == "buy") {
         bool foundItem = false; //use it as a flag when user input does not match with item name
         //loop to get all item in set of items
-        for (auto item : items) {
+        for (Item* item : items) {
+
             //convert itemName to lower case
             const std::string& itemName = item->getName();
             std::string lowerItemName = itemName;
             util::lower(lowerItemName);
             util::lower(arguments[0]);
+
             //check itemname == arguments
             if (lowerItemName == arguments[0]) {
                 //check balance to buy appropriate item
                 if (balance >= item->getPrice()) {
-                    //add item to set of inventory
-                    auto result = inventory.insert(item->getName());
                     //check for existing item using second function in SET
-                    if (result.second) {
+                    if (inventory.empty()) {
                         foundItem = true;
+                        inventory.insert(item);
                         std::cout << "Successfully bought " << item->getName() << std::endl;
                         //deducting balance value from item price.
                         balance = balance - item->getPrice();
                         std::cout << std::endl;
                         std::cout << "Your balance is: $" << balance << std::endl;
                         std::cout << std::endl;
-
-                        break;
                     }
                     else {
-                        std::cout << "The item already existed your inventory" << std::endl;
-                        break;
+                        for (Item* purchasedItem : inventory) {
+                            const std::string& purchasedItemName = purchasedItem->getName();
+                            std::string lowerPurchasedItemName = purchasedItemName;
+                            util::lower(lowerPurchasedItemName);
+                            if (arguments[0] != lowerPurchasedItemName) {
+                                foundItem = true;
+                                std::cout << "Successfully bought " << item->getName() << std::endl;
+                                //add item to set of inventory
+                                inventory.insert(item);
+                                //deducting balance value from item price.
+                                balance = balance - item->getPrice();
+                                std::cout << std::endl;
+                                std::cout << "Your balance is: $" << balance << std::endl;
+                                std::cout << std::endl;
+
+                                break;
+                            }
+                            else {
+                                std::cout << "The item already existed your inventory" << std::endl;
+                                break;
+                            }
+                        }
                     }
+  
                 }
                 else {
                     std::cout << "You do not have sufficient fund to purchase the item!" << std::endl;
@@ -122,5 +142,13 @@ const std::vector<Item*>& ItemManager::getItems() const {
     return items;
 }
 
+Item* ItemManager::findItemInInventory() {
+    for (Item* purchasedItem : inventory) {
+        return purchasedItem;
+    }
+}
 
+std::set<Item*> ItemManager::getInventory()  {
+    return inventory;
+}
 

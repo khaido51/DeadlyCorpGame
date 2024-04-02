@@ -11,10 +11,10 @@ Game::Game(int _cargo, int _balance, int _currentDay, int _quota, int _numberOfE
 
 
 
-void Game::initializeGame()
+void Game::initializeGame(std::string& moonInGame)
 {
-    std::string currentMoonOrbit = moonManager.getOrbitingMoon()[0]->name();
-    std::cout << "Current Moon is " << currentMoonOrbit << std::endl;
+    moonInGame = moonManager.getOrbitingMoon()[0]->name();
+    std::cout << "Current Moon is " << moonInGame << std::endl;
     //Welcome screen
     std::cout << "    ___               _ _           ___                 \n" \
         "   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
@@ -31,7 +31,7 @@ void Game::initializeGame()
     std::cout << "Current Cargo Value: $" << cargo << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
     std::cout << "Current quota: $" << quota << "( " << maxCycleDay - currentDay << " days left to meet quota)" << std::endl;
-    std::cout << "Current orbiting: "  << currentMoonOrbit << std::endl;
+    std::cout << "Current orbiting: "  << moonInGame << std::endl;
 
     std::cout << std::endl;
 
@@ -106,13 +106,13 @@ void Game::createMoons(MoonManager& moonManager)
 void Game::createItems(ItemManager& itemManager)
 {
     //Create new Item
-    itemManager.registerItem(new Item("Flashlight", 60));
-    itemManager.registerItem(new Item("Shovel", 100));
-    itemManager.registerItem(new Item("Pro-flashlight", 200));
-    itemManager.registerItem(new Item("Teleporter", 300));
-    itemManager.registerItem(new Item("Inverse-Teleporter", 400));
-    itemManager.registerItem(new Item("Backpack", 500));
-    itemManager.registerItem(new Item("Hydraulics-Mk2", 1000));
+    itemManager.registerItem(new Item("Flashlight", 60, 1, 1.05, 1, 0, 1));
+    itemManager.registerItem(new Item("Shovel", 100, 1, 1.05, 1, 0, 1));
+    itemManager.registerItem(new Item("Pro-flashlight", 200, 1, 1.1, 1, 0, 1));
+    itemManager.registerItem(new Item("Teleporter", 300, 1, 1, 1, 0.33, 1));
+    itemManager.registerItem(new Item("Inverse-Teleporter", 400, 1.1, 0.8, 1, 0, 1));
+    itemManager.registerItem(new Item("Backpack", 500, 1, 1, 1, 0, 1.25));
+    itemManager.registerItem(new Item("Hydraulics-Mk2", 1000, 1, 1, 1.25, 1, 1));
 }
 
 
@@ -173,7 +173,9 @@ void Game::processCommand(const std::string& commands, std::string moonInGame, M
     }
     
 }
-
+std::mt19937& Game::getRNG() {
+    return rng;
+}
 
 
 void Game::setOrbitingMoon(std::string moonInGame)
@@ -187,6 +189,73 @@ std::string Game::getOrbitingMoon()
 }
 
 
+void Game::gameSimulation(int amount) {
+    //numOfOperator = aliveEmployees - numExplorers
+    //explorerSurvivalChance = explorerBaseSurvivalChance * explorerSurvivalChanceMultiplier
+    //operatorSurvivalChance = 1.0 * operatorSurvivalChanceMultiplier
+    int numOfExplorer = amount;
+    int numOfOperator = 4 - amount;
+    float exploreBaseSurvivalChance = 0.0;
+    float explorerSurvivalChanceMultiplier;
+    float explorerSurvivalChance = 1;
+
+    std::string moonName = getOrbitingMoon();
+
+    Moon moon;
+    AbstractMoon* abPtr = moonManager.findMoon(moonName);
+    Moon* moonPtr = static_cast<Moon*>(abPtr);
+    moonPtr->getBaseSurvivalChance();
+    //get base survival chance
+    if (abPtr->name() == getOrbitingMoon()) {
+        exploreBaseSurvivalChance = moonPtr->getBaseSurvivalChance();
+        explorerSurvivalChance = explorerSurvivalChance * exploreBaseSurvivalChance;
+    }
+    std::cout << explorerSurvivalChance << std::endl;
+
+
+    //loop inventory to get item
+    //single item
+
+    std::set<Item*> inventory = itemManager.getInventory();
+    for (auto item : inventory) {
+        explorerSurvivalChanceMultiplier = item->getExplorerSurvivalChanceMultiplier();
+        explorerSurvivalChance *= explorerSurvivalChanceMultiplier;
+    }
+    /*
+    std::vector<Item*> items;
+    Item* item;
+    for (auto item : items) {
+        item = itemManager.findItemInInventory();
+        items.push_back(item);
+
+    }
+
+    
+    for (auto item : items) {
+        explorerSurvivalChanceMultiplier = item->getExplorerSurvivalChanceMultiplier();
+        explorerSurvivalChance *= explorerSurvivalChanceMultiplier;
+    }
+    //explorerSurvivalChanceMultiplier = item->getExplorerSurvivalChanceMultiplier();
+    //std::cout << explorerSurvivalChanceMultiplier << std::endl;
+   */
+   
+    std::cout << explorerSurvivalChance << std::endl;
+
+
+    //totalRevenue = 0 
+    //deadExplorers = 0 
+    //REPEAT numExplorers TIMES: 
+    //  revenue = randomIntBetween(minScrapValue * scrapValueMultplier, maxScrapValue * scrapValueMultplier)
+    
+
+    //IF randomFloat01() < explorerSurvivalChance: 
+        //This employee made it out alive 
+        //  totalRevenue = totalRevenue + revenue
+    //ELSE randomFloat01() >= explorerSaveChance: 
+    //This employee died and was NOT saved 
+    //    totalRevenue = totalRevenue + revenue * lootRecoveryMultiplier 
+    //    deadExplorers = deadExplorers + 1
+}
 
 
 

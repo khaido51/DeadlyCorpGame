@@ -9,6 +9,9 @@ Moon::Moon(const std::string _name, MoonWeather _moonWeather, float _minimumScra
 {
     moonName = _name;
     moonWeather = _moonWeather;
+    minimumScrapValue = _minimumScrapValue;
+    maxScrapValue = _maxScrapValue;
+    baseSurvivalChance = _baseSurvivalChance;
 
 }
 
@@ -71,4 +74,25 @@ void Moon::sendEmployees(Game& g, int amount)
 {
     std::cout << "You send " << amount << " employees" << std::endl;
     std::cout << "You are here" << std::endl;
+    g.gameSimulation(amount);
+    //Simulation
+    //numOfExplorer & numOfOperator
+    
+    
+
+}
+
+float Moon::getMinimumScrapValue()
+{
+    return minimumScrapValue;
+}
+
+float Moon::getMaxScrapValue()
+{
+    return maxScrapValue;
+}
+
+float Moon::getBaseSurvivalChance()
+{
+    return baseSurvivalChance;
 }
