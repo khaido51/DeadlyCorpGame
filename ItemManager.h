@@ -14,8 +14,6 @@ class ItemManager {
 private:
     
     static const std::list<std::string> commands;
-    
-    
 
 public:
     std::vector<Item*> items;
@@ -26,6 +24,7 @@ public:
     ItemManager();
     void showAllItems();
     void showInventory();
+    const std::vector<Item*>& getItems() const;
     void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments, int cargo, int quota);
     void registerItem(Item* item);
 };

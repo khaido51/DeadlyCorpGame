@@ -13,8 +13,6 @@ void MoonManager::registerMoon(AbstractMoon* moon)
 
 void MoonManager::showAllMoons()
 {
-	
-
 	for (const auto& moon : moons) {
 		std::cout << "* " << moon->name() << " ";
 
@@ -46,6 +44,11 @@ void MoonManager::showAllMoons()
 	}
 
 
+}
+
+const std::vector<AbstractMoon*>& MoonManager::getOrbitingMoon() const
+{
+	return moons;
 }
 
 void MoonManager::processCommands(const std::string& command, std::string& moonInGame, int& balance, std::vector<std::string> arguments, MoonWeather& weatherInMoon)
@@ -105,13 +108,7 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 
 }
 
-void MoonManager::orbitingMoon()
-{
-	for (AbstractMoon* orbitingMoon : moons) {
-		std::cout << orbitingMoon->name() << std::endl;
-	}
 
-}
 
 
 

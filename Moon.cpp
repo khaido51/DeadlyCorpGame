@@ -40,12 +40,12 @@ void Moon::onDayBegin(Game& g)
     day++;
     g.setCurrentDay(day);
  
-
     std::cout << "==============" << " DAY " << day << "====================" << std::endl;
 
     std::cout << "Current Cargo Value: $" << g.showCargo() << std::endl;
     std::cout << "Current Balance Value: $" << g.showBalance() << std::endl;
     std::cout << "Current quota: $" << g.showQuota() << "( " << 4 - g.showCurrentDay() << " days left to meet quota)" << std::endl;
+    std::cout << "Current Moon Orbiting: " << g.getOrbitingMoon() << std::endl;
 
     std::cout << std::endl;
 

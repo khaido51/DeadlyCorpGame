@@ -16,29 +16,29 @@ private:
     int quota;
     int numberOfEmployees;
     int maxCycleDay;
+    std::string orbitingMoon = "";
     std::string currentMoon;
-    ItemManager itemManager;
-    MoonManager moonManager;
-    static const std::list<std::string> commands;
-
-
-
+    ItemManager& itemManager;
+    MoonManager& moonManager;
+  
 
 public:
-    Game();
-    Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay);
+ 
+    Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager);
     void initializeGame();
     void createItems(ItemManager& itemManager);
     void createMoons(MoonManager& moonManager);
+    
     int showBalance();
     int showCargo();
     int showQuota();
     int showCurrentDay();
-    std::string& getCurrentMoon();
-    void setCurrentMoon(std::string& moonName);
     void setCurrentDay(int newDay);
-    void landedOnMoon(std::string moonInGame);
+    ItemManager& getItemManager();
+    MoonManager& getMoonManager();  
     void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);
+    void setOrbitingMoon(std::string moonInGame);
+    std::string getOrbitingMoon();
 };
 
 #endif // !GAME_H

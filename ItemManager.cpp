@@ -98,7 +98,7 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
         }   
         
     }
-
+    
     if (command == "inventory") {
         std::cout << "Your inventory have the following items: " << std::endl;
         std::cout << "-----------------------------------------" << std::endl;
@@ -118,7 +118,9 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
   
 }
 
-
+const std::vector<Item*>& ItemManager::getItems() const {
+    return items;
+}
 
 
 
