@@ -37,7 +37,7 @@ int main()
 
     Game game;
     game.initializeGame();
-    game.run();
+    game.run(game);
 
     /*
     // Get a reference to the random number generator
@@ -52,7 +52,21 @@ int main()
     */
 
     
-  
+    std::random_device rd;
+    std::mt19937 mt(rd());
+
+    // Define the range for the random integer
+    int min = 1;
+    int max = 10;
+
+    // Create a uniform integer distribution for the range [min, max]
+    std::uniform_int_distribution<int> dist(min, max);
+
+    // Generate random numbers using mt19937 and dist
+    for (int i = 0; i < 5; ++i) {
+        int random_number = dist(mt); // Generate a random number
+        std::cout << "Random number " << i + 1 << ": " << random_number << std::endl;
+    }
 
    
 

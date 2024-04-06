@@ -15,7 +15,6 @@ protected:
     std::string moonName;
     MoonWeather _moonWeather;
 
-
 public:
     AbstractMoon();
     virtual ~AbstractMoon();

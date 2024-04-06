@@ -17,8 +17,8 @@ private:
     int quota = 150;
     int numberOfEmployees = 4;
     int maxCycleDay = 4;
-    std::string orbitingMoon;
-    std::string currentMoon;
+    std::string orbitingMoon = "";
+    MoonWeather moonWeather;
     ItemManager itemManager;
     MoonManager moonManager;
     Moon moon;
@@ -35,7 +35,7 @@ public:
     //void createMoons();
     //void createItems(ItemManager& itemManager);
     //void createMoons(MoonManager& moonManager);
-    void run();
+    void run(Game& g);
     int showBalance();
     int showCargo();
     int showQuota();
@@ -43,11 +43,14 @@ public:
     void setCurrentDay(int newDay);
     //void test();
     std::mt19937& getRNG();
+    int getRandomInt(int min, int max);
     ItemManager getItemManager();
     MoonManager getMoonManager();  
     void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);
     void setOrbitingMoon(std::string moonInGame);
     std::string getOrbitingMoon();
+    void setMoonWeather(MoonWeather _moonWeather);
+    MoonWeather getMoonWeather();
     void gameSimulation(int amount);
     
 };

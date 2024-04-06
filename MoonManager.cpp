@@ -96,11 +96,11 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 					std::cout << "Already orbiting " << moonInGame << std::endl;
 					return;
 				}
-
-				std::cout << "Now orbiting to " << moon->name() << " Use Land command to land" << std::endl;
+				moonInGame = moon->name();
+				std::cout << "Now orbiting to " << moonInGame << " Use Land command to land" << std::endl;
 				std::cout << std::endl;
 				foundMoon = true;
-				moonInGame = moon->name();
+				
 				weatherInMoon = moon->getMoonWeather();
 				switch (weatherInMoon) {
 				case MoonWeather::Clear:
