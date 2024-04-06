@@ -3,18 +3,28 @@
 
 
 //Constructor of creating a first game (cargo = 0; balance = 50, currentDay = 1, quota = 150)
+/*
 Game::Game(int _cargo, int _balance, int _currentDay, int _quota, int _numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager)
     : cargo(_cargo), balance(_balance), currentDay(_currentDay), quota(_quota), numberOfEmployees(_numberOfEmployees), maxCycleDay(_maxCycleDay), itemManager(_itemManager), moonManager(_moonManager) 
 {
     
 }
+*/
+Game::Game() : itemManager(), moonManager() {}
 
 
-
-void Game::initializeGame(std::string& moonInGame)
+/*
+Game::Game(ItemManager, MoonManager)
 {
-    moonInGame = moonManager.getOrbitingMoon()[0]->name();
-    std::cout << "Current Moon is " << moonInGame << std::endl;
+}
+*/
+void Game::initializeGame()
+{
+    itemManager.createItems();
+    moonManager.createMoons();
+
+    currentMoon = moonManager.getOrbitingMoon()[0]->name();
+    std::cout << "Current Moon is " << currentMoon << std::endl;
     //Welcome screen
     std::cout << "    ___               _ _           ___                 \n" \
         "   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
@@ -31,7 +41,7 @@ void Game::initializeGame(std::string& moonInGame)
     std::cout << "Current Cargo Value: $" << cargo << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
     std::cout << "Current quota: $" << quota << "( " << maxCycleDay - currentDay << " days left to meet quota)" << std::endl;
-    std::cout << "Current orbiting: "  << moonInGame << std::endl;
+    std::cout << "Current orbiting: "  << currentMoon << std::endl;
 
     std::cout << std::endl;
 
@@ -46,6 +56,8 @@ void Game::initializeGame(std::string& moonInGame)
     std::cout << ">INVENTORY" << std::endl;
     std::cout << "To see the list of items you've already bought." << std::endl;
     std::cout << std::endl;
+
+
 
 }
 
@@ -66,11 +78,11 @@ int Game::showQuota()
 }
 
 
-ItemManager& Game::getItemManager() {
+ItemManager Game::getItemManager() {
     return itemManager;
 }
 
-MoonManager& Game::getMoonManager() {
+MoonManager Game::getMoonManager() {
     return moonManager;
 }
 
@@ -86,6 +98,8 @@ void Game::setCurrentDay(int newDay)
     currentDay = newDay;
 }
 
+
+/*
 void Game::createMoons(MoonManager& moonManager)
 {
     AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear,1,1,1);
@@ -101,8 +115,15 @@ void Game::createMoons(MoonManager& moonManager)
     moonManager.registerMoon(moon4);
 }
 
+void Game::createMoons() {
+    moonManager.createMoons();
+}
 
-
+void Game::createItems(){
+    itemManager.createItems();
+}
+*/
+/*
 void Game::createItems(ItemManager& itemManager)
 {
     //Create new Item
@@ -114,7 +135,7 @@ void Game::createItems(ItemManager& itemManager)
     itemManager.registerItem(new Item("Backpack", 500, 1, 1, 1, 0, 1.25));
     itemManager.registerItem(new Item("Hydraulics-Mk2", 1000, 1, 1, 1.25, 1, 1));
 }
-
+*/
 
 
 void Game::processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon)
@@ -205,6 +226,7 @@ void Game::gameSimulation(int amount) {
     AbstractMoon* abPtr = moonManager.findMoon(moonName);
     Moon* moonPtr = static_cast<Moon*>(abPtr);
     moonPtr->getBaseSurvivalChance();
+
     //get base survival chance
     if (abPtr->name() == getOrbitingMoon()) {
         exploreBaseSurvivalChance = moonPtr->getBaseSurvivalChance();
@@ -259,3 +281,121 @@ void Game::gameSimulation(int amount) {
 
 
 
+void Game::run() {
+    std::string moonInGame = "";
+
+    std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit" };
+    std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell", "leave", "route" };
+
+
+
+    Game game;
+    std::string command = "";
+    MoonWeather weatherInMoon{};
+    std::vector<std::string> arguments;
+    bool orbitPhase = true;
+    bool foundPhase = false;
+
+
+    while (true) {
+        //user input
+        std::cout << ">";
+        std::getline(std::cin >> std::ws, command);
+        util::splitArguments(command, arguments);
+        //change to lower case
+        util::lower(command);
+        //check for orbiting phase
+        if (orbitPhase == true) {
+            //loop through orbitingPhase
+            for (auto phase : orbitingPhase) {
+                if (command == phase) {
+                    foundPhase = true;
+                    if (command == "moons") {
+                        moonManager.processCommands(command, moonInGame, balance, arguments, weatherInMoon);
+                    }
+                    else if (command == "store") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    else if (command == "inventory") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    else if (command == "route") {
+                        moonManager.processCommands(command, moonInGame, balance, arguments, weatherInMoon);
+                    }
+                    else if (command == "buy") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    else if (command == "land") {
+                        processCommand(command, moonInGame, weatherInMoon);
+                        setOrbitingMoon(moonInGame);
+                        std::string newMoon = getOrbitingMoon();
+                        std::cout << "Test " << newMoon << std::endl;
+                        orbitPhase = false;
+                        break;
+                    }
+                }
+            }
+        }
+        else if (orbitPhase == false) {
+            for (auto phase : landingPhase) {
+                if (command == phase) {
+                    foundPhase = true;
+
+                    if (command == "moons") {
+                        moonManager.processCommands(command, moonInGame, balance, arguments, weatherInMoon);
+                    }
+                    else if (command == "store") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    else if (command == "inventory") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    else if (command == "buy") {
+                        itemManager.processCommand(command, balance, arguments, cargo, quota);
+                    }
+                    /*
+                    else if (command == "sell") {
+                        if (moonInGame != "corporation") {
+                            std::cout << "You can not use sell command in this moon " << std::endl;
+                        }
+                        else {
+                            moon.sellCargo(game, count);
+                        }
+                    }
+                    else if (command == "send") {
+                        if (moonInGame == "corporation") {
+                            std::cout << "You can not use send command in this moon" << std::endl;
+                        }
+                        else {
+                            if (arguments.empty()) {
+                                std::cout << "Bad command, the syntax is: send numberOfEmployees" << std::endl;
+                            }
+                            count = stoi(arguments[0]);
+                            moon.sendEmployees(game, count);
+                        }
+                    } */
+                    else if (command == "leave") {
+                        moon.onDayBegin(game);
+                        orbitPhase = true;
+                        break;
+                    }
+                   
+                    else if (command == "land") {
+                        std::cout << "You already landed on " << getOrbitingMoon() << std::endl;
+                    }
+                    else if (command == "route") {
+                        std::cout << "Can not use this command" << std::endl;
+
+                    }
+                }
+            }
+        }
+        else {
+            foundPhase = false;
+        }
+        if (!foundPhase) {
+            std::cout << "Invalid Command!!" << std::endl;
+        }
+
+    }
+}

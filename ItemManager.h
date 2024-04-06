@@ -14,6 +14,7 @@ class ItemManager {
 private:
     
     static const std::list<std::string> commands;
+    Item* item;
 
 public:
     std::vector<Item*> items;
@@ -22,6 +23,7 @@ public:
 
 public:
     ItemManager();
+    void createItems();
     void showAllItems();
     void showInventory();
     const std::vector<Item*>& getItems() const;

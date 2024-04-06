@@ -41,6 +41,7 @@ void Moon::onDayBegin(Game& g)
     //set new current day
     int day = g.showCurrentDay();
     day++;
+    std::string moon = g.getOrbitingMoon();
     g.setCurrentDay(day);
  
     std::cout << "==============" << " DAY " << day << "====================" << std::endl;

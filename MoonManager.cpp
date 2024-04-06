@@ -6,6 +6,21 @@ MoonManager::MoonManager()
 {
 }
 
+void MoonManager::createMoons()
+{
+	AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear, 1, 1, 1);
+	AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear, 3, 30, 0.5);
+	AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear, 5, 50, 0.45);
+	AbstractMoon* moon3 = new Moon("Pledge", MoonWeather::Clear, 30, 50, 0.40);
+	AbstractMoon* moon4 = new Moon("Defence", MoonWeather::Clear, 10, 70, 0.35);
+
+	registerMoon(moon);
+	registerMoon(moon1);
+	registerMoon(moon2);
+	registerMoon(moon3);
+	registerMoon(moon4);
+}
+
 void MoonManager::registerMoon(AbstractMoon* moon)
 {
 	moons.push_back(moon);

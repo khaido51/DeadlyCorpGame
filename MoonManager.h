@@ -19,6 +19,7 @@ public:
 
 public:
     MoonManager();
+    void createMoons();
     void registerMoon(AbstractMoon* moon);
     void showAllMoons();
     const std::vector<AbstractMoon*>& getOrbitingMoon() const;
