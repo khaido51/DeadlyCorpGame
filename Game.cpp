@@ -196,6 +196,9 @@ void Game::processCommand(const std::string& commands, std::string moonInGame, M
     }
     
 }
+
+
+
 std::mt19937& Game::getRNG() {
 
     return rng;
@@ -315,8 +318,7 @@ void Game::gameSimulation(int amount) {
         items.push_back(item);
 
     }
-
-    
+   
     for (auto item : items) {
         explorerSurvivalChanceMultiplier = item->getExplorerSurvivalChanceMultiplier();
         explorerSurvivalChance *= explorerSurvivalChanceMultiplier;
@@ -329,7 +331,7 @@ void Game::gameSimulation(int amount) {
     std::cout << "scrapValueMultiplier: " << scrapValueMultiplier << std::endl;
 
     int revenue = getRandomInt(moonPtr->getMinimumScrapValue() * int(scrapValueMultiplier), moonPtr->getMaxScrapValue() * int(scrapValueMultiplier));
-    std::cout << revenue << std::endl;
+    std::cout <<  revenue << std::endl;
 
     //totalRevenue = 0 
     //deadExplorers = 0 
@@ -347,29 +349,41 @@ void Game::gameSimulation(int amount) {
 }
 
 
+std::string Game::readCommand(const std::string& command)
+{
+    std::cout << ">";
+    std::string userInput;
+    std::getline(std::cin >> std::ws, userInput);
+    return userInput;
+}
+    
+
+
 
 void Game::run(Game& g) {
     
+    //list of command in orbiting phase
     std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit" };
+    //list of command in landing phase
     std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell", "leave", "route" };
-
-    
-
-    
-    std::string command = "";
-    MoonWeather weatherInMoon{};
+    //arguments store the second word of user input
     std::vector<std::string> arguments;
+
+    //flag
     bool orbitPhase = true;
     bool foundPhase = false;
+    //number of employees player wants to send.
     int count = 0;
 
+    std::string command = "";
     while (true) {
-        //user input
-        std::cout << ">";
-        std::getline(std::cin >> std::ws, command);
+        //read user's input
+        command = readCommand(command);
+        //Split the command
         util::splitArguments(command, arguments);
         //change to lower case
         util::lower(command);
+
         //check for orbiting phase
         if (orbitPhase == true) {
             //loop through orbitingPhase
@@ -377,7 +391,8 @@ void Game::run(Game& g) {
                 if (command == phase) {
                     foundPhase = true;
                     if (command == "moons") {
-                        moonManager.processCommands(command, orbitingMoon, balance, arguments, weatherInMoon);
+                        //passing the command, orbiting moon , balance, argument[0] and weather of the moon.
+                        moonManager.processCommands(command, orbitingMoon, balance, arguments, moonWeather);
                     }
                     else if (command == "store") {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
@@ -386,17 +401,17 @@ void Game::run(Game& g) {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "route") {
-                        moonManager.processCommands(command, orbitingMoon, balance, arguments, weatherInMoon);
+                        moonManager.processCommands(command, orbitingMoon, balance, arguments, moonWeather);
                     }
                     else if (command == "buy") {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
                     }
                     else if (command == "land") {
-                        processCommand(command, orbitingMoon, weatherInMoon);
+                        processCommand(command, orbitingMoon, moonWeather);
                         setOrbitingMoon(orbitingMoon);
-                        setMoonWeather(weatherInMoon);
+                        setMoonWeather(moonWeather);
                         std::cout << "You are orbiting to " << getOrbitingMoon() << std::endl;
-                        switch (weatherInMoon) {
+                        switch (moonWeather) {
                         case MoonWeather::Clear:
                             std::cout << "";
                             break;
@@ -416,13 +431,14 @@ void Game::run(Game& g) {
                 }
             }
         }
+  
         else if (orbitPhase == false) {
             for (auto phase : landingPhase) {
                 if (command == phase) {
                     foundPhase = true;
 
                     if (command == "moons") {
-                        moonManager.processCommands(command, orbitingMoon, balance, arguments, weatherInMoon);
+                        moonManager.processCommands(command, orbitingMoon, balance, arguments, moonWeather);
                     }
                     else if (command == "store") {
                         itemManager.processCommand(command, balance, arguments, cargo, quota);
@@ -447,16 +463,21 @@ void Game::run(Game& g) {
                             std::cout << "You can not use send command in this moon" << std::endl;
                         }
                         else {
-                            if (arguments.empty()) {
-                                std::cout << "Bad command, the syntax is: send numberOfEmployees" << std::endl;
+                            // Check if arguments vector is not empty and the first argument is not empty
+                            if (!arguments.empty() && !arguments[0].empty()) {
+                                int count = std::stoi(arguments[0]);
+                                moon.sendEmployees(g, count);
                             }
-                            count = stoi(arguments[0]);
-                            moon.sendEmployees(g, count);
+                            else {
+                                std::cout << "Bad command, the syntax is: send numberOfEmployees" << std::endl;
+                                break;
+                            }
+                            
                         }
-                    } 
-          
+                    }          
                     else if (command == "leave") {
                         std::cout << orbitingMoon << std::endl;
+                        moonManager.moonWeatherMap.clear();
                         moon.onDayBegin(g);
                         orbitPhase = true;
                         break;

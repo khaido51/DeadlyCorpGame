@@ -37,28 +37,36 @@ void MoonManager::showAllMoons()
 		case MoonWeather::Clear:
 			std::cout << "";
 			//assign weatherInMoon
-			
+
 			break;
 		case MoonWeather::Stormy:
 			std::cout << "(Stormy)";
 			//assign weatherInMoon
-			
+
 			break;
 		case MoonWeather::Flooded:
 			std::cout << "(Flooded)";
 			//assign weatherInMoon
-			
+
 			break;
 		case MoonWeather::Eclipsed:
 			std::cout << "(Eclipsed)";
 			//assign weatherInMoon
-			
+
 			break;
 		}
 		std::cout << std::endl;
 	}
+}
+		
 
 
+std::string MoonManager::lowerMoonName(AbstractMoon* moonName)
+{
+	const std::string& name = moonName->name();
+	std::string lowerCaseMoonName = name;
+	util::lower(lowerCaseMoonName);
+	return lowerCaseMoonName;
 }
 
 const std::vector<AbstractMoon*>& MoonManager::getOrbitingMoon() const
@@ -84,14 +92,14 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 		bool foundMoon = false;
 		for (const auto& moon : moons) {
 			//converting moon to lower case
-			const std::string& moonName = moon->name();
-			std::string lowerCaseMoonName = moonName;
-			util::lower(lowerCaseMoonName);
+			std::string moonName = lowerMoonName(moon);
+			//lower the argumennts 
 			util::lower(arguments[0]);
 			util::lower(moonInGame);
 			//checking moon name equals to arguments
-			if (lowerCaseMoonName == arguments[0]) 
+			if (moonName == arguments[0])
 			{
+				//check if user already orbits that moon
 				if (arguments[0] == moonInGame) {
 					std::cout << "Already orbiting " << moonInGame << std::endl;
 					return;

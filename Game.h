@@ -41,12 +41,12 @@ public:
     int showQuota();
     int showCurrentDay();
     void setCurrentDay(int newDay);
-    //void test();
     std::mt19937& getRNG();
     int getRandomInt(int min, int max);
     ItemManager getItemManager();
     MoonManager getMoonManager();  
     void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);
+    std::string readCommand(const std::string& command);
     void setOrbitingMoon(std::string moonInGame);
     std::string getOrbitingMoon();
     void setMoonWeather(MoonWeather _moonWeather);
