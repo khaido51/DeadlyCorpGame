@@ -216,7 +216,7 @@ void Game::setOrbitingMoon(std::string moonInGame)
 {
     
     orbitingMoon = moonInGame;
-    std::cout << "Orbiting moon set to: " << orbitingMoon << std::endl;
+    //std::cout << "Orbiting moon set to: " << orbitingMoon << std::endl;
     
 }
 
@@ -410,21 +410,7 @@ void Game::run(Game& g) {
                         processCommand(command, orbitingMoon, moonWeather);
                         setOrbitingMoon(orbitingMoon);
                         setMoonWeather(moonWeather);
-                        std::cout << "You are orbiting to " << getOrbitingMoon() << std::endl;
-                        switch (moonWeather) {
-                        case MoonWeather::Clear:
-                            std::cout << "";
-                            break;
-                        case MoonWeather::Stormy:
-                            std::cout << "(Stormy)";
-                            break;
-                        case MoonWeather::Flooded:
-                            std::cout << "(Flooded)";
-                            break;
-                        case MoonWeather::Eclipsed:
-                            std::cout << "(Eclipsed)";
-                            break;
-                        }
+                        //std::cout << "You are orbiting to " << getOrbitingMoon() << std::endl;
                         orbitPhase = false;
                         break;
                     }

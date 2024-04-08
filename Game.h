@@ -52,6 +52,7 @@ public:
     void setMoonWeather(MoonWeather _moonWeather);
     MoonWeather getMoonWeather();
     void gameSimulation(int amount);
+
     
 };
 

@@ -26,37 +26,62 @@ void MoonManager::registerMoon(AbstractMoon* moon)
 	moons.push_back(moon);
 }
 
+std::string MoonManager::convertWeatherToString(MoonWeather weather)
+{
+	switch (weather) {
+	case MoonWeather::Clear:
+		return "";
+		break;
+
+	case MoonWeather::Stormy:
+		return "(Stormy)";
+		break;
+
+	case MoonWeather::Flooded:
+		return "(Flooded)";
+		break;
+
+	case MoonWeather::Eclipsed:
+		return "(Eclipsed)";
+		break;
+	}
+}
+
 void MoonManager::showAllMoons()
 {
 	for (const auto& moon : moons) {
 		std::cout << "* " << moon->name() << " ";
 
 		//Get the weather for current moon
-
-		switch (moon->getRandomWeather()) {
-		case MoonWeather::Clear:
+		MoonWeather weather;
+		if (moon->name() == "Corporation") {
+			weather = MoonWeather::Clear;
 			std::cout << "";
-			//assign weatherInMoon
-
-			break;
-		case MoonWeather::Stormy:
-			std::cout << "(Stormy)";
-			//assign weatherInMoon
-
-			break;
-		case MoonWeather::Flooded:
-			std::cout << "(Flooded)";
-			//assign weatherInMoon
-
-			break;
-		case MoonWeather::Eclipsed:
-			std::cout << "(Eclipsed)";
-			//assign weatherInMoon
-
-			break;
 		}
+		else {
+			weather = moon->getRandomWeather();
+		}
+		std::string weatherString = convertWeatherToString(weather);
+		std::cout << weatherString;
+		
+		//add each key value pair into the map (moonName as key, weather is value)
+		moonWeatherMap.insert(std::pair<std::string, MoonWeather>(moon->name(), weather));
 		std::cout << std::endl;
 	}
+}
+
+void MoonManager::showAllMoonsFromMap()
+{
+	for(const auto & keyValue : moonWeatherMap) {
+		std::string key = keyValue.first;
+		std::cout << "* " << key << " ";
+		MoonWeather value = keyValue.second;
+		
+		std::string weatherString = convertWeatherToString(value);
+		std::cout << weatherString;
+		std::cout << std::endl;
+	}
+	
 }
 		
 
@@ -68,6 +93,8 @@ std::string MoonManager::lowerMoonName(AbstractMoon* moonName)
 	util::lower(lowerCaseMoonName);
 	return lowerCaseMoonName;
 }
+
+
 
 const std::vector<AbstractMoon*>& MoonManager::getOrbitingMoon() const
 {
@@ -84,7 +111,13 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 		std::cout << "To route the autopilot to moon, use the word ROUTE" << std::endl;
 		std::cout << "-------------------------------------------" << std::endl;
 
-		showAllMoons();
+		if (moonWeatherMap.empty()) {
+			showAllMoons();
+		}
+		else {
+			showAllMoonsFromMap();
+		}
+		
 		std::cout << std::endl;
 		
 	}
@@ -110,20 +143,7 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 				foundMoon = true;
 				
 				weatherInMoon = moon->getMoonWeather();
-				switch (weatherInMoon) {
-				case MoonWeather::Clear:
-					std::cout << "";
-					break;
-				case MoonWeather::Stormy:
-					std::cout << "(Stormy)";
-					break;
-				case MoonWeather::Flooded:
-					std::cout << "(Flooded)";
-					break;
-				case MoonWeather::Eclipsed:
-					std::cout << "(Eclipsed)";
-					break;
-				}
+			
 				std::cout << "Balance: $" << balance << std::endl;
 				std::cout << std::endl;
 				break;
