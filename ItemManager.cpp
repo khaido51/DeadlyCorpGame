@@ -18,6 +18,10 @@ void ItemManager::registerItem(Item* item)
     items.push_back(item);
 }
 
+void ItemManager::checkExistingItem(std::string argument, int& balance)
+{
+}
+
 //loop to show item's details in vector of items
 void ItemManager::showAllItems()
 {
@@ -31,6 +35,14 @@ void ItemManager::showInventory()
     for (Item* purchasedItem: inventory ) {
         std::cout << "* " << purchasedItem->getName() << std::endl;
     }
+}
+
+std::string ItemManager::lowerItemName(Item* item)
+{
+    const std::string& itemName = item->getName();
+    std::string lowerItemName = itemName;
+    util::lower(lowerItemName);
+    return lowerItemName;
 }
 
 //processing commands
@@ -54,21 +66,22 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
 
     if (command == "buy") {
         bool foundItem = false; //use it as a flag when user input does not match with item name
+        bool existingItem = false;
         //loop to get all item in set of items
         for (Item* item : items) {
-
+            foundItem = false;
             //convert itemName to lower case
-            const std::string& itemName = item->getName();
-            std::string lowerItemName = itemName;
-            util::lower(lowerItemName);
+            
+            std::string itemName = lowerItemName(item);
             util::lower(arguments[0]);
 
             //check itemname == arguments
-            if (lowerItemName == arguments[0]) {
+            if (itemName == arguments[0]) {
                 //check balance to buy appropriate item
                 if (balance >= item->getPrice()) {
                     //check for existing item using second function in SET
-                    if (inventory.empty()) {
+
+                    if (inventory.empty() ) {
                         foundItem = true;
                         inventory.insert(item);
                         std::cout << "Successfully bought " << item->getName() << std::endl;
@@ -77,14 +90,14 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
                         std::cout << std::endl;
                         std::cout << "Your balance is: $" << balance << std::endl;
                         std::cout << std::endl;
+                        break;
                     }
                     else {
                         for (Item* purchasedItem : inventory) {
-                            const std::string& purchasedItemName = purchasedItem->getName();
-                            std::string lowerPurchasedItemName = purchasedItemName;
-                            util::lower(lowerPurchasedItemName);
-                            if (arguments[0] != lowerPurchasedItemName) {
-                                foundItem = true;
+                            std::string purchasedItemName = lowerItemName(purchasedItem);
+
+                            if (purchasedItemName != arguments[0]) {
+                                existingItem = true;
                                 std::cout << "Successfully bought " << item->getName() << std::endl;
                                 //add item to set of inventory
                                 inventory.insert(item);
@@ -93,16 +106,14 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
                                 std::cout << std::endl;
                                 std::cout << "Your balance is: $" << balance << std::endl;
                                 std::cout << std::endl;
-
-                                break;
+                                continue;
                             }
                             else {
                                 std::cout << "The item already existed your inventory" << std::endl;
-                                break;
+                                
                             }
                         }
                     }
-  
                 }
                 else {
                     std::cout << "You do not have sufficient fund to purchase the item!" << std::endl;
@@ -115,7 +126,10 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
         //Catch error and ask user to re enter.
         if (!foundItem) {
             std::cout << "Item name does not match. Please re-enter item name" << std::endl;
-        }   
+        }  
+        if (!existingItem){
+
+        }
         
     }
     

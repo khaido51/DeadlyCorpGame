@@ -137,6 +137,7 @@ void MoonManager::processCommands(const std::string& command, std::string& moonI
 					std::cout << "Already orbiting " << moonInGame << std::endl;
 					return;
 				}
+				//storing moon.name() to moonInGame to get display after land command
 				moonInGame = moon->name();
 				std::cout << "Now orbiting to " << moonInGame << " Use Land command to land" << std::endl;
 				std::cout << std::endl;

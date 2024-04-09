@@ -47,7 +47,7 @@ void Moon::onDayBegin(Game& g)
 
     std::cout << "Current Cargo Value: $" << g.showCargo() << std::endl;
     std::cout << "Current Balance Value: $" << g.showBalance() << std::endl;
-    std::cout << "Current quota: $" << g.showQuota() << "( " << 4 - g.showCurrentDay() << " days left to meet quota)" << std::endl;
+    std::cout << "Current quota: $" << g.showQuota() << "( " << 4 - (g.showCurrentDay()%4) << " days left to meet quota)" << std::endl;
     std::cout << "Current Moon Orbiting: " << g.getOrbitingMoon() << std::endl;
 
 
@@ -64,11 +64,31 @@ void Moon::onDayBegin(Game& g)
     std::cout << ">INVENTORY" << std::endl;
     std::cout << "To see the list of items you've already bought." << std::endl;
     std::cout << std::endl;
+
+    if (day % 4 == 0) {
+        std::cout << "NOTE: 0 days left to meet quota. Type route Corporation to go to the corp's moon and ell the scrap you collected for scrap." << std::endl;
+    }
+   
 }
+
 
 
 void Moon::sellCargo(Game& g, int amount)
 {
+    int newCargo = 0;
+    int newBalance = 0;
+
+    newCargo = g.showCargo() - amount;
+    newBalance = amount + g.showBalance();
+
+    g.setCargo(newCargo);
+    g.setBalance(newBalance);
+   
+    std::cout << "Your new balance is " << newBalance << std::endl;
+    std::cout << "Your new Cargo is " << newCargo << std::endl;
+    //g.showCargo();
+    //g.showBalance();
+
 }
 
 void Moon::sendEmployees(Game& g, int amount)

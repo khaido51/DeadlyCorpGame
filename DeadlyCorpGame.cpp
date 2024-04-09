@@ -28,6 +28,8 @@ int main()
     int numberOfEmployees = 4;
     int maxDayCycle = 4;
     */
+   
+
     MoonManager moonManager;
     ItemManager itemManager;
 
@@ -53,7 +55,7 @@ int main()
 
     
     std::random_device rd;
-    std::mt19937 mt(rd());
+    std::mt19937 rng((rd)());
 
     // Define the range for the random integer
     int min = 1;
@@ -61,11 +63,18 @@ int main()
 
     // Create a uniform integer distribution for the range [min, max]
     std::uniform_int_distribution<int> dist(min, max);
+    std::uniform_real_distribution<float> realDistribution;
 
     // Generate random numbers using mt19937 and dist
     for (int i = 0; i < 5; ++i) {
-        int random_number = dist(mt); // Generate a random number
+        int random_number = dist(rng); // Generate a random number
         std::cout << "Random number " << i + 1 << ": " << random_number << std::endl;
+    }
+
+
+    for (int i = 0; i < 4; i++) {
+        float number = realDistribution(rng);
+        std::cout << "The float number is " << number << std::endl;
     }
 
    

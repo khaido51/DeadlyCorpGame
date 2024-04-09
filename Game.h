@@ -22,6 +22,7 @@ private:
     ItemManager itemManager;
     MoonManager moonManager;
     Moon moon;
+    std::random_device rd;
     std::mt19937 rng;
 
   
@@ -31,18 +32,21 @@ public:
     //Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager);
     Game();
     void initializeGame();
-    //void createItems();
-    //void createMoons();
-    //void createItems(ItemManager& itemManager);
-    //void createMoons(MoonManager& moonManager);
     void run(Game& g);
     int showBalance();
     int showCargo();
     int showQuota();
     int showCurrentDay();
+    void newDay(Game& g);
+    void setCargo(int newCargo);
+    void setQuota(int newQuota);
+    void setBalance(int newBalance);
+    void setNumberOfEmployees(int num);
+    int getNumberOfEmployees();
     void setCurrentDay(int newDay);
     std::mt19937& getRNG();
     int getRandomInt(int min, int max);
+    float randomFloat();
     ItemManager getItemManager();
     MoonManager getMoonManager();  
     void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);
@@ -51,7 +55,7 @@ public:
     std::string getOrbitingMoon();
     void setMoonWeather(MoonWeather _moonWeather);
     MoonWeather getMoonWeather();
-    void gameSimulation(int amount);
+    int gameSimulation(int amount);
 
     
 };
