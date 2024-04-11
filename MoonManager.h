@@ -15,7 +15,7 @@ class MoonManager {
 public:
     std::vector<AbstractMoon*> moons;
     std::vector<std::string> arguments;
-    static const std::list<std::string> commands;
+    //static const std::list<std::string> commands;
     //use this to store the generated weather at 1st.
     //clear it when leave the moon.(cant use map because it changed the order of moon name
     //use unordermap
@@ -23,6 +23,7 @@ public:
 
 public:
     MoonManager();
+    ~MoonManager();
     void createMoons();
     void registerMoon(AbstractMoon* moon);
     void showAllMoons();

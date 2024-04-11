@@ -30,6 +30,7 @@ private:
 public:
  
     //Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager);
+   
     Game();
     void initializeGame();
     void run(Game& g);
@@ -56,6 +57,7 @@ public:
     void setMoonWeather(MoonWeather _moonWeather);
     MoonWeather getMoonWeather();
     int gameSimulation(int amount);
+    void exitGame();
 
     
 };

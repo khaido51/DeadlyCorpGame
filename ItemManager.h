@@ -23,6 +23,7 @@ public:
 
 public:
     ItemManager();
+    ~ItemManager();
     void createItems();
     void showAllItems();
     void showInventory();

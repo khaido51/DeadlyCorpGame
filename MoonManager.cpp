@@ -6,6 +6,8 @@ MoonManager::MoonManager()
 {
 }
 
+
+
 void MoonManager::createMoons()
 {
 	AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear, 1, 1, 1);
@@ -166,6 +168,15 @@ AbstractMoon* MoonManager::findMoon(std::string moonInGame) {
 	}
 }
 
+MoonManager::~MoonManager()
+{
+	for (AbstractMoon* moon : moons) {
+		delete moon;
+	}
 
+	moons.clear();
+
+
+}
 
 

@@ -12,6 +12,8 @@ ItemManager::ItemManager()
 
 }
 
+
+
 //create new Item and store item in items vector
 void ItemManager::registerItem(Item* item)
 {
@@ -79,10 +81,20 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
             if (itemName == arguments[0]) {
                 //check balance to buy appropriate item
                 if (balance >= item->getPrice()) {
-                    //check for existing item using second function in SET
-
-                    if (inventory.empty() ) {
-                        foundItem = true;
+                    foundItem = true;
+                    existingItem = false;
+                  
+                    //check for existing item in the invetory
+                    for (Item* purchasedItem : inventory) {
+                        std::string purchasedItemName = lowerItemName(purchasedItem);
+                        if (purchasedItemName == arguments[0]) {
+                            existingItem = true;
+                            std::cout << "The item already existed your inventory" << std::endl;
+                            std::cout << std::endl;
+                        }  
+                    }
+                    //if it doesnt exist
+                    if (!existingItem) {
                         inventory.insert(item);
                         std::cout << "Successfully bought " << item->getName() << std::endl;
                         //deducting balance value from item price.
@@ -90,47 +102,22 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
                         std::cout << std::endl;
                         std::cout << "Your balance is: $" << balance << std::endl;
                         std::cout << std::endl;
-                        break;
                     }
-                    else {
-                        for (Item* purchasedItem : inventory) {
-                            std::string purchasedItemName = lowerItemName(purchasedItem);
-
-                            if (purchasedItemName != arguments[0]) {
-                                existingItem = true;
-                                std::cout << "Successfully bought " << item->getName() << std::endl;
-                                //add item to set of inventory
-                                inventory.insert(item);
-                                //deducting balance value from item price.
-                                balance = balance - item->getPrice();
-                                std::cout << std::endl;
-                                std::cout << "Your balance is: $" << balance << std::endl;
-                                std::cout << std::endl;
-                                continue;
-                            }
-                            else {
-                                std::cout << "The item already existed your inventory" << std::endl;
-                                
-                            }
-                        }
-                    }
+                  
                 }
                 else {
                     std::cout << "You do not have sufficient fund to purchase the item!" << std::endl;
+                    std::cout << std::endl;
                 }
-
                 break;
             }
-
+       
         }
         //Catch error and ask user to re enter.
         if (!foundItem) {
             std::cout << "Item name does not match. Please re-enter item name" << std::endl;
+            std::cout << std::endl;
         }  
-        if (!existingItem){
-
-        }
-        
     }
     
     if (command == "inventory") {
@@ -184,3 +171,16 @@ void ItemManager::createItems() {
     registerItem(item7);
 }
 
+ItemManager::~ItemManager()
+{
+    for (Item* item : items) {
+        delete item;
+    }
+    items.clear();
+
+    for (Item* inventoryItems : inventory) {
+        delete inventoryItems;
+    }
+
+    inventory.clear();
+}
