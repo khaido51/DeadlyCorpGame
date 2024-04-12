@@ -9,9 +9,36 @@ std::set<Item*> inventory;
 
 ItemManager::ItemManager()
 {
+    Item* item1 = new Item("Flashlight", 60, 1, 1.05, 1, 0, 1);
+    Item* item2 = new Item("Shovel", 100, 1, 1.05, 1, 0, 1);
+    Item* item3 = new Item("Pro-flashlight", 200, 1, 1.1, 1, 0, 1);
+    Item* item4 = new Item("Teleporter", 300, 1, 1, 1, 0.33, 1);
+    Item* item5 = new Item("Inverse-Teleporter", 400, 1.1, 0.8, 1, 0, 1);
+    Item* item6 = new Item("Backpack", 500, 1, 1, 1, 0, 1.25);
+    Item* item7 = new Item("Hydraulics-Mk2", 1000, 1, 1, 1.25, 1, 1);
 
+    registerItem(item1);
+    registerItem(item2);
+    registerItem(item3);
+    registerItem(item4);
+    registerItem(item5);
+    registerItem(item6);
+    registerItem(item7);
 }
 
+ItemManager::~ItemManager()
+{
+    for (Item* item : items) {
+        delete item;
+    }
+    items.clear();
+
+    for (Item* inventoryItems : inventory) {
+        delete inventoryItems;
+    }
+
+    inventory.clear();
+}
 
 
 //create new Item and store item in items vector
@@ -20,9 +47,7 @@ void ItemManager::registerItem(Item* item)
     items.push_back(item);
 }
 
-void ItemManager::checkExistingItem(std::string argument, int& balance)
-{
-}
+
 
 //loop to show item's details in vector of items
 void ItemManager::showAllItems()
@@ -153,34 +178,5 @@ std::set<Item*> ItemManager::getInventory()  {
     return inventory;
 }
 
-void ItemManager::createItems() {
-    Item* item1= new Item("Flashlight", 60, 1, 1.05, 1, 0, 1);
-    Item* item2 = new Item("Shovel", 100, 1, 1.05, 1, 0, 1);
-    Item* item3 = new Item("Pro-flashlight", 200, 1, 1.1, 1, 0, 1);
-    Item* item4 = new Item("Teleporter", 300, 1, 1, 1, 0.33, 1);
-    Item* item5 = new Item("Inverse-Teleporter", 400, 1.1, 0.8, 1, 0, 1);
-    Item* item6 = new Item("Backpack", 500, 1, 1, 1, 0, 1.25);
-    Item* item7 = new Item("Hydraulics-Mk2", 1000, 1, 1, 1.25, 1, 1);
 
-    registerItem(item1);
-    registerItem(item2);
-    registerItem(item3);
-    registerItem(item4);
-    registerItem(item5);
-    registerItem(item6);
-    registerItem(item7);
-}
 
-ItemManager::~ItemManager()
-{
-    for (Item* item : items) {
-        delete item;
-    }
-    items.clear();
-
-    for (Item* inventoryItems : inventory) {
-        delete inventoryItems;
-    }
-
-    inventory.clear();
-}

@@ -1,27 +1,13 @@
 #include "Game.h"
 
-
-
-//Constructor of creating a first game (cargo = 0; balance = 50, currentDay = 1, quota = 150)
-/*
-Game::Game(int _cargo, int _balance, int _currentDay, int _quota, int _numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager)
-    : cargo(_cargo), balance(_balance), currentDay(_currentDay), quota(_quota), numberOfEmployees(_numberOfEmployees), maxCycleDay(_maxCycleDay), itemManager(_itemManager), moonManager(_moonManager) 
-{
-    
-}
-*/
-//Game::Game() : itemManager(), moonManager(),  rng(rd()) {}
-Game::Game(){}
-
-/*
-Game::Game(ItemManager, MoonManager)
+Game::Game(): rng(rd())
 {
 }
-*/
+
 void Game::initializeGame()
 {
-    itemManager.createItems();
-    moonManager.createMoons();
+    //itemManager.createItems();
+    //moonManager.createMoons();
 
     orbitingMoon = moonManager.getOrbitingMoon()[0]->name();
     //std::cout << "Current Moon is " << orbitingMoon << std::endl;
@@ -42,7 +28,7 @@ void Game::initializeGame()
 
     std::cout << "Current Cargo Value: $" << cargo << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
-    std::cout << "Current quota: $" << quota << "( " << maxCycleDay - currentDay << " days left to meet quota)" << std::endl;
+    std::cout << "Current quota: $" << quota << "( " << 4 - currentDay << " days left to meet quota)" << std::endl;
     std::cout << "Current orbiting: "  << orbitingMoon << std::endl;
 
     std::cout << std::endl;
@@ -134,45 +120,6 @@ void Game::setCurrentDay(int newDay)
 }
 
 
-/*
-void Game::createMoons(MoonManager& moonManager)
-{
-    AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear,1,1,1);
-    AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear, 3, 30, 0.5);
-    AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear, 5, 50, 0.45);
-    AbstractMoon* moon3 = new Moon("Pledge", MoonWeather::Clear, 30, 50, 0.40);
-    AbstractMoon* moon4 = new Moon("Defence", MoonWeather::Clear, 10, 70, 0.35);
-
-    moonManager.registerMoon(moon);
-    moonManager.registerMoon(moon1);
-    moonManager.registerMoon(moon2);
-    moonManager.registerMoon(moon3);
-    moonManager.registerMoon(moon4);
-}
-
-void Game::createMoons() {
-    moonManager.createMoons();
-}
-
-void Game::createItems(){
-    itemManager.createItems();
-}
-*/
-/*
-void Game::createItems(ItemManager& itemManager)
-{
-    //Create new Item
-    itemManager.registerItem(new Item("Flashlight", 60, 1, 1.05, 1, 0, 1));
-    itemManager.registerItem(new Item("Shovel", 100, 1, 1.05, 1, 0, 1));
-    itemManager.registerItem(new Item("Pro-flashlight", 200, 1, 1.1, 1, 0, 1));
-    itemManager.registerItem(new Item("Teleporter", 300, 1, 1, 1, 0.33, 1));
-    itemManager.registerItem(new Item("Inverse-Teleporter", 400, 1.1, 0.8, 1, 0, 1));
-    itemManager.registerItem(new Item("Backpack", 500, 1, 1, 1, 0, 1.25));
-    itemManager.registerItem(new Item("Hydraulics-Mk2", 1000, 1, 1, 1.25, 1, 1));
-}
-*/
-
-
 void Game::processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon)
 {
     if (moonInGame == "Corporation") {
@@ -249,6 +196,16 @@ float Game::randomFloat()
     float myRandomNumber = realDistribution(rng);
     return myRandomNumber;
 }
+
+MoonWeather Game::getRandomWeather()
+{
+    std::uniform_int_distribution<int> weatherDistribution(0, 3);
+    int myRandomWeather = weatherDistribution(rng);
+    MoonWeather randomMoonWeather = static_cast<MoonWeather>(myRandomWeather);
+
+    return randomMoonWeather;
+}
+
 
 
 
@@ -408,9 +365,8 @@ int Game::gameSimulation(int amount) {
     //calculate number of explorer alive after exploring
     numOfExplorer = numOfExplorer - deadExplorers;
   
-    //calculate new cargo = totalRevenue
-    totalRevenue = totalRevenue + showCargo();
-    setCargo(totalRevenue);
+    
+  
 
     //if all dies
     if (numOfExplorer == 0) {
@@ -419,6 +375,10 @@ int Game::gameSimulation(int amount) {
     else {
         std::cout << numOfExplorer << " made it back to the ship, bring $" << totalRevenue << " worth of scrap. " << deadExplorers << " died" << std::endl;
     }
+
+    //calculate new cargo = totalRevenue
+    totalRevenue = totalRevenue + showCargo();
+    setCargo(totalRevenue);
 
     return deadExplorers, deadOperators, totalRevenue;
     
@@ -669,11 +629,5 @@ void Game::run(Game& g) {
 
 void Game::exitGame()
 {
-    moonManager.~MoonManager();
-    itemManager.~ItemManager();
-    AbstractMoon* abPtr = nullptr;
-    Moon* moonPtr = nullptr;
-    delete abPtr;
-    delete moonPtr;
     exit(0);
 }

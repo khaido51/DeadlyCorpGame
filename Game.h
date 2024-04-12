@@ -7,16 +7,16 @@
 #include <string>
 #include <list>
 #include <random>
+#include <functional>
 
 
 class Game {
 private:
     int cargo = 0;
-    int balance = 500;
+    int balance = 50;
     int currentDay = 1;
     int quota = 150;
     int numberOfEmployees = 4;
-    int maxCycleDay = 4;
     std::string orbitingMoon = "";
     MoonWeather moonWeather;
     ItemManager itemManager;
@@ -29,8 +29,6 @@ private:
 
 public:
  
-    //Game(int _cargo, int _balance, int _currentDay, int _quota, int numberOfEmployees, int _maxCycleDay, ItemManager& _itemManager, MoonManager& _moonManager);
-   
     Game();
     void initializeGame();
     void run(Game& g);
@@ -48,6 +46,7 @@ public:
     std::mt19937& getRNG();
     int getRandomInt(int min, int max);
     float randomFloat();
+    MoonWeather getRandomWeather();
     ItemManager getItemManager();
     MoonManager getMoonManager();  
     void processCommand(const std::string& commands, std::string moonInGame, MoonWeather weatherInMoon);

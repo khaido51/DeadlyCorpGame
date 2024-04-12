@@ -11,7 +11,9 @@
 #include <unordered_map>
 #include <algorithm>
 
+class Game;
 class MoonManager {
+
 public:
     std::vector<AbstractMoon*> moons;
     std::vector<std::string> arguments;
@@ -24,7 +26,6 @@ public:
 public:
     MoonManager();
     ~MoonManager();
-    void createMoons();
     void registerMoon(AbstractMoon* moon);
     void showAllMoons();
     void showAllMoonsFromMap();

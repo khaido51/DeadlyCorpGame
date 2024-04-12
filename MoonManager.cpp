@@ -4,12 +4,6 @@ std::vector<AbstractMoon*> moons;
 
 MoonManager::MoonManager()
 {
-}
-
-
-
-void MoonManager::createMoons()
-{
 	AbstractMoon* moon = new Moon("Corporation", MoonWeather::Clear, 1, 1, 1);
 	AbstractMoon* moon1 = new Moon("Prototyping", MoonWeather::Clear, 3, 30, 0.5);
 	AbstractMoon* moon2 = new Moon("Insurance", MoonWeather::Clear, 5, 50, 0.45);
@@ -22,6 +16,18 @@ void MoonManager::createMoons()
 	registerMoon(moon3);
 	registerMoon(moon4);
 }
+
+MoonManager::~MoonManager()
+{
+	for (AbstractMoon* moon : moons) {
+		delete moon;
+	}
+
+	moons.clear();
+
+
+}
+
 
 void MoonManager::registerMoon(AbstractMoon* moon)
 {
@@ -168,15 +174,6 @@ AbstractMoon* MoonManager::findMoon(std::string moonInGame) {
 	}
 }
 
-MoonManager::~MoonManager()
-{
-	for (AbstractMoon* moon : moons) {
-		delete moon;
-	}
 
-	moons.clear();
-
-
-}
 
 

@@ -24,14 +24,12 @@ public:
 public:
     ItemManager();
     ~ItemManager();
-    void createItems();
     void showAllItems();
     void showInventory();
     std::string lowerItemName(Item* item);
     const std::vector<Item*>& getItems() const;
     void processCommand(const std::string& command, int& balance, std::vector<std::string> arguments, int cargo, int quota);
     void registerItem(Item* item);
-    void checkExistingItem(std::string argument, int& balance);
     Item* findItemInInventory();
     std::set<Item*> getInventory();
 };
