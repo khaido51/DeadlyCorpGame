@@ -17,6 +17,7 @@ MoonManager::MoonManager()
 	registerMoon(moon4);
 }
 
+//Clear all allocate memory
 MoonManager::~MoonManager()
 {
 	for (AbstractMoon* moon : moons) {
@@ -24,8 +25,7 @@ MoonManager::~MoonManager()
 	}
 
 	moons.clear();
-
-
+	moonWeatherMap.clear();
 }
 
 

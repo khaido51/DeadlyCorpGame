@@ -11,7 +11,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-class Game;
 class MoonManager {
 
 public:

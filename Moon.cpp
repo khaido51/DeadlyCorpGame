@@ -21,7 +21,6 @@ std::string Moon::getName()
     return name;
 }
 
-
 //derived a getRandomWeather function in abstract class
 MoonWeather Moon::getRandomWeather()
 {
@@ -38,7 +37,7 @@ MoonWeather Moon::getRandomWeather()
 void Moon::onDayBegin(Game& g)
 {
     //std::cout << "You are here" << std::endl;
-    //set new current day
+    //set new current dayg
 
     std::cout << std::endl;
     std::cout << std::endl;

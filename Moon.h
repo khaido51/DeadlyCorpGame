@@ -13,6 +13,7 @@ private:
     float minimumScrapValue;
     float maxScrapValue;
     float baseSurvivalChance;
+    
 
 public:
     Moon();

@@ -18,17 +18,14 @@ private:
     int quota = 150;
     int numberOfEmployees = 4;
     std::string orbitingMoon = "";
-    MoonWeather moonWeather;
     ItemManager itemManager;
     MoonManager moonManager;
+    MoonWeather moonWeather {};
     Moon moon;
     std::random_device rd;
-    std::mt19937 rng;
-
-  
+    std::mt19937 rng{ rd() };
 
 public:
- 
     Game();
     void initializeGame();
     void run(Game& g);
@@ -36,7 +33,6 @@ public:
     int showCargo();
     int showQuota();
     int showCurrentDay();
-    void newDay(Game& g);
     void setCargo(int newCargo);
     void setQuota(int newQuota);
     void setBalance(int newBalance);

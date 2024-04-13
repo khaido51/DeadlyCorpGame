@@ -1,6 +1,7 @@
+
 #include "Game.h"
 
-Game::Game(): rng(rd())
+Game::Game()
 {
 }
 
@@ -18,18 +19,18 @@ void Game::initializeGame()
         " / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
         "/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
         "                          |___/                  |_|    " << std::endl;
-  
+
 
     std::cout << "Welcome!" << std::endl;
     std::cout << "We trust you will be a great asset to the corporation" << std::endl;
 
-    
+
     std::cout << "==============" << " DAY " << currentDay << "====================" << std::endl;
 
     std::cout << "Current Cargo Value: $" << cargo << std::endl;
     std::cout << "Current Balance Value: $" << balance << std::endl;
     std::cout << "Current quota: $" << quota << "( " << 4 - currentDay << " days left to meet quota)" << std::endl;
-    std::cout << "Current orbiting: "  << orbitingMoon << std::endl;
+    std::cout << "Current orbiting: " << orbitingMoon << std::endl;
 
     std::cout << std::endl;
 
@@ -45,7 +46,7 @@ void Game::initializeGame()
     std::cout << "To see the list of items you've already bought." << std::endl;
     std::cout << std::endl;
 
-    
+
 
 }
 
@@ -81,13 +82,6 @@ int Game::showCurrentDay()
     return currentDay;
 }
 
-void Game::newDay(Game& g)
-{
-    moonManager.moonWeatherMap.clear();
-    numberOfEmployees = 4;
-    moon.onDayBegin(g);
-
-}
 
 void Game::setCargo(int newCargo)
 {
@@ -172,9 +166,9 @@ void Game::processCommand(const std::string& commands, std::string moonInGame, M
         std::cout << "Type SEND followed by the number of employees you wish to send inside the facility. All the other employees will stay on the ship." << std::endl;
         std::cout << "Type LEAVE to leave the planet." << std::endl;
         std::cout << std::endl;
-      
+
     }
-    
+
 }
 
 
@@ -211,10 +205,10 @@ MoonWeather Game::getRandomWeather()
 
 void Game::setOrbitingMoon(std::string moonInGame)
 {
-    
+
     orbitingMoon = moonInGame;
     //std::cout << "Orbiting moon set to: " << orbitingMoon << std::endl;
-    
+
 }
 
 std::string Game::getOrbitingMoon()
@@ -247,7 +241,7 @@ int Game::gameSimulation(int amount) {
     float explorerSaveChance = 0;
     float lootRecoveryMultiplier = 0.5;
     float operatorSurvivalChance = 1;
-   
+
     //totalRevenue = 0 
     //deadExplorers = 0 
     int totalRevenue = 0;
@@ -262,25 +256,25 @@ int Game::gameSimulation(int amount) {
         scrapValueMultiplier *= 1;
         explorerSurvivalChance *= 1;
         operatorSurvivalChance *= 1;
-        std::cout << "";
+        //std::cout << "";
         break;
     case MoonWeather::Stormy:
         scrapValueMultiplier *= 0.75;
         explorerSurvivalChance *= 1;
         operatorSurvivalChance *= 1;
-        std::cout << "(Stormy)";
+        //std::cout << "(Stormy)";
         break;
     case MoonWeather::Flooded:
         scrapValueMultiplier *= 1;
         explorerSurvivalChance *= 0.7;
         operatorSurvivalChance *= 1;
-        std::cout << "(Flooded)";
+        //std::cout << "(Flooded)";
         break;
     case MoonWeather::Eclipsed:
         scrapValueMultiplier *= 1;
         explorerSurvivalChance *= 0.9;
         operatorSurvivalChance *= 0.7;
-        std::cout << "(Eclipsed)";
+        //std::cout << "(Eclipsed)";
         break;
     }
 
@@ -295,12 +289,10 @@ int Game::gameSimulation(int amount) {
         exploreBaseSurvivalChance = moonPtr->getBaseSurvivalChance();
         explorerSurvivalChance = explorerSurvivalChance * exploreBaseSurvivalChance;
     }
-   // std::cout << explorerSurvivalChance << std::endl;
+    // std::cout << explorerSurvivalChance << std::endl;
 
 
-    //loop inventory to get item
-    //single item
-
+     //loop inventory to get item
     std::set<Item*> inventory = itemManager.getInventory();
     for (auto item : inventory) {
         explorerSurvivalChanceMultiplier = item->getExplorerSurvivalChanceMultiplier();
@@ -354,8 +346,8 @@ int Game::gameSimulation(int amount) {
         }
     }
 
-   
-   
+
+
     //get total of employee
     int aliveEmployees = getNumberOfEmployees();//4
     //get alive employees after exploring
@@ -364,9 +356,7 @@ int Game::gameSimulation(int amount) {
     setNumberOfEmployees(aliveEmployees);
     //calculate number of explorer alive after exploring
     numOfExplorer = numOfExplorer - deadExplorers;
-  
-    
-  
+
 
     //if all dies
     if (numOfExplorer == 0) {
@@ -381,7 +371,7 @@ int Game::gameSimulation(int amount) {
     setCargo(totalRevenue);
 
     return deadExplorers, deadOperators, totalRevenue;
-    
+
 
 }
 
@@ -393,16 +383,16 @@ std::string Game::readCommand(const std::string& command)
     std::getline(std::cin >> std::ws, userInput);
     return userInput;
 }
-    
+
 
 
 
 void Game::run(Game& g) {
-    
+
     //list of command in orbiting phase
-    std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit", "send", "sell", "leave"};
+    std::vector<std::string> orbitingPhase = { "moons", "store", "route", "inventory", "buy","land", "exit", "send", "sell", "leave" };
     //list of command in landing phase
-    std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell", "leave", "route"};
+    std::vector<std::string> landingPhase = { "moons", "store","inventory", "buy","land", "exit", "send", "sell", "leave", "route" };
     //arguments store the second word of user input
     std::vector<std::string> arguments;
 
@@ -415,15 +405,15 @@ void Game::run(Game& g) {
     std::string command = "";
     while (true) {
 
-   
+
         //read user's input
         command = readCommand(command);
         //Split the command
         util::splitArguments(command, arguments);
         //change to lower case
         util::lower(command);
-        
-      
+
+
 
         //check for orbiting phase
         if (orbitPhase == true) {
@@ -448,7 +438,7 @@ void Game::run(Game& g) {
                         else {
                             moonManager.processCommands(command, orbitingMoon, balance, arguments, moonWeather);
                         }
-                        
+
                     }
                     else if (command == "buy") {
                         if (arguments.empty()) {
@@ -510,9 +500,10 @@ void Game::run(Game& g) {
                         }
                     }
 
-                    else if (command == "sell") {     
+                    else if (command == "sell") {
                         if (orbitingMoon != "Corporation") {
                             std::cout << "You can not use sell command in this moon " << std::endl;
+                            break;
                         }
                         else {
                             if (arguments.empty()) {
@@ -527,24 +518,25 @@ void Game::run(Game& g) {
                                 std::cout << "You must enter a valid number!!" << std::endl;
                                 break;
                             }
-                                          
-                        }     
+
+                        }
                     }
                     else if (command == "send") {
-                        if (orbitingMoon == "corporation") {
+                        if (orbitingMoon == "Corporation") {
                             std::cout << "You can not use send command in this moon" << std::endl;
+                            break;
                         }
                         else {
                             // Check if arguments vector is not empty and the first argument is not empty
                             if (!arguments.empty() && !arguments[0].empty()) {
                                 //count = std::stoi(arguments[0]);
                                 count = util::parsePositiveInt(arguments[0]);
-                                if (count <= getNumberOfEmployees()) {  
+                                if (count <= getNumberOfEmployees()) {
                                     moon.sendEmployees(g, count);
                                 }
                                 else {
                                     std::cout << "You only have " << getNumberOfEmployees() << std::endl;
-                                }            
+                                }
                             }
                             else {
                                 std::cout << "Bad command, the syntax is: send numberOfEmployees" << std::endl;
@@ -565,7 +557,7 @@ void Game::run(Game& g) {
                                 orbitPhase = true;
                                 break;
                             }
-                            
+
                         }
                     }
                     else if (command == "leave") {
@@ -575,10 +567,10 @@ void Game::run(Game& g) {
                             if (balance >= quota) {
                                 quota = quota * 150 / 100;
                                 setQuota(quota);
-                                
+
                                 std::cout << "---------------------" << std::endl;
                                 std::cout << "CONGRATULATIONS ON MAKING QUOTA" << std::endl;
-                                std::cout << "New Quota: $" << showQuota() << std::endl;       
+                                std::cout << "New Quota: $" << showQuota() << std::endl;
                                 std::cout << "---------------------" << std::endl;
                             }
                             else {
@@ -589,14 +581,14 @@ void Game::run(Game& g) {
                                 std::cout << std::endl;
                                 std::cout << "You did not meet quota in time, and your employees have been fired. You kept them alive for " << g.showCurrentDay() << " days" << std::endl;
                                 //Exit the program
-                                exitGame();                              
+                                exitGame();
                             }
                         }
 
                         moonManager.moonWeatherMap.clear();
                         numberOfEmployees = 4;
                         moon.onDayBegin(g);
-                        orbitPhase = true;     
+                        orbitPhase = true;
                         break;
                     }
 
@@ -617,14 +609,14 @@ void Game::run(Game& g) {
                 }
             }
         }
-       
+
         if (!foundPhase) {
             std::cout << "Invalid Command!!" << std::endl;
             std::cout << std::endl;
             std::cout << std::endl;
         }
     }
-    
+
 }
 
 void Game::exitGame()

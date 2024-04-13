@@ -131,8 +131,10 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
                   
                 }
                 else {
+                    foundItem = true;
                     std::cout << "You do not have sufficient fund to purchase the item!" << std::endl;
                     std::cout << std::endl;
+                    break;
                 }
                 break;
             }
@@ -142,6 +144,7 @@ void ItemManager::processCommand(const std::string& command, int& balance, std::
         if (!foundItem) {
             std::cout << "Item name does not match. Please re-enter item name" << std::endl;
             std::cout << std::endl;
+            
         }  
     }
     
