@@ -466,7 +466,7 @@ void Game::run(Game& g) {
                         std::cout << "Command is not valid at this phase" << std::endl;
                     }
                     else if (command == "exit") {
-                        exitGame();
+                        return;
                     }
                     break;
                 }
@@ -579,9 +579,8 @@ void Game::run(Game& g) {
                                 std::cout << ">>>>>>>> GAME OVER <<<<<<<<" << std::endl;
                                 std::cout << "---------------------" << std::endl;
                                 std::cout << std::endl;
-                                std::cout << "You did not meet quota in time, and your employees have been fired. You kept them alive for " << g.showCurrentDay() << " days" << std::endl;
-                                //Exit the program
-                                exitGame();
+                                std::cout << "You did not meet quota in time, and your employees have been fired. You kept them alive for " << showCurrentDay() << " days" << std::endl;
+                                return;
                             }
                         }
 
@@ -600,7 +599,7 @@ void Game::run(Game& g) {
 
                     }
                     else if (command == "exit") {
-                        exitGame();
+                        return ;
                     }
                     break;
                 }
@@ -621,5 +620,5 @@ void Game::run(Game& g) {
 
 void Game::exitGame()
 {
-    exit(0);
+ 
 }
