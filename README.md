@@ -25,4 +25,5 @@ Player can checkout Inventory by enter INVENTORY command to buy equipments which
 ![image](https://github.com/user-attachments/assets/303c47f8-a14b-4c81-b3d6-38c19499087f)<br><br>
 
 
+If you want to play the game, download the DeadlyCorpGame.exe file above to play the game and have some fun.
 
